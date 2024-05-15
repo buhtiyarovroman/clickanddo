@@ -1,0 +1,1 @@
+export type TProjectsMainScreenParams = undefined

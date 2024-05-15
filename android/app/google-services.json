@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "236571682133",
+    "project_id": "clickndo-a20ca",
+    "storage_bucket": "clickndo-a20ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236571682133:android:4195edf6cd7be3709b7bdc",
+        "android_client_info": {
+          "package_name": "com.kitglobal.clickndo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236571682133-jn9mhs98eqjagol0nmtjfca0dfrgh2d7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitglobal.clickndo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "236571682133-6gg0qvhr515it504rpg3uloebj5evsrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIzqI-6tq6QBlD87dDmp-2nO_a1xhSqmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236571682133-6gg0qvhr515it504rpg3uloebj5evsrg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "236571682133-att31g1as9c6rsi9f8hl7t03bmfc4pk8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kitglobal.clickndo",
+                "app_store_id": "6472716592"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

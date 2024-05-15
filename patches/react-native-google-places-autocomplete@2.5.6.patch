@@ -1,0 +1,12 @@
+diff --git a/GooglePlacesAutocomplete.js b/GooglePlacesAutocomplete.js
+index 99a2a13284c4122478e29f90d50cd11b93d54872..f6350a4158c6128ad2a510956b59c028fe8ddfe7 100644
+--- a/GooglePlacesAutocomplete.js
++++ b/GooglePlacesAutocomplete.js
+@@ -799,6 +799,7 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
+         <FlatList
+           nativeID='result-list-id'
+           scrollEnabled={!props.disableScroll}
++          nestedScrollEnabled
+           style={[
+             props.suppressDefaultStyles ? {} : defaultStyles.listView,
+             props.styles.listView,
