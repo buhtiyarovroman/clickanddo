@@ -7,6 +7,8 @@ import { Icon } from '@/shared/ui/Icon'
 import { EColors } from '@/shared/ui/Styled'
 import { format } from 'date-fns'
 import { View } from 'react-native'
+import { EScreens } from '@/app/navigation'
+import { useNavigation } from '@/features/hooks'
 
 export const ReviewCard = ({
   title = '',
@@ -15,8 +17,11 @@ export const ReviewCard = ({
   mark,
   owner,
   width = '100%',
+  isMyProfile,
   ...props
 }: TUserReviewCardProps) => {
+  const { navigate, push } = useNavigation()
+
   const isSpecialistMark = owner?.role === 'specialist'
 
   const customerMark =
@@ -26,8 +31,30 @@ export const ReviewCard = ({
       (mark?.professionalism || 0) +
       (mark?.timing || 0)) /
     5
+
+  const goProfile = () => {
+    const id = owner?._id
+
+    if (!id) {
+      return
+    }
+
+    if (isMyProfile) {
+      navigate(EScreens.JobStack, {
+        screen: EScreens.JobProfile,
+        params: { id },
+      })
+      return
+    }
+
+    push(EScreens.JobProfile, { id })
+  }
   return (
-    <ReviewContainer width={width} {...props} style={styles.shadow}>
+    <ReviewContainer
+      width={width}
+      {...props}
+      onPress={goProfile}
+      style={styles.shadow}>
       {/* Rating */}
       <FlexWrapper mBottom={'8px'} width={'auto'}>
         <Icon size={14} name={'Star'} fill={EColors.warning} />

@@ -50,7 +50,7 @@ export const ProjectCardButtons = ({
   return (
     <>
       <FlexWrapper>
-        {isCustomer && !isHoldStatus && !specialist && (
+        {isCustomer && !isHoldStatus && !isDoneStatus && !specialist && (
           <Button.Standard
             mTop={'16px'}
             color={EColors.black}

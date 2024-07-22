@@ -6,6 +6,8 @@ import {
   Tabs,
   TabBarProps,
   MaterialTabBar,
+  MaterialTabItem,
+  MaterialTabItemProps,
 } from 'react-native-collapsible-tab-view'
 import * as S from './styled'
 import * as UI from './ui'
@@ -15,10 +17,16 @@ import { useTranslation } from 'react-i18next'
 export const Customer = ({ isEdit = false, user }: TWidgetUserCustomer) => {
   const { t } = useTranslation()
   const [headerHeight, setHeaderHeight] = useState(0)
+
+  const renderTabItem = (props: MaterialTabItemProps<string>) => (
+    <MaterialTabItem {...props} android_ripple={{ radius: 0 }} />
+  )
+
   const tabBar = useCallback(
     (props: TabBarProps<string>) => (
       <MaterialTabBar
         {...props}
+        TabItemComponent={renderTabItem}
         inactiveColor={EColors.black}
         activeColor={EColors.primary}
         labelStyle={S.styles.label}
@@ -29,8 +37,6 @@ export const Customer = ({ isEdit = false, user }: TWidgetUserCustomer) => {
     ),
     [S],
   )
-
-  console.log('headerHeight =>', headerHeight)
 
   return (
     <S.Container>
@@ -45,14 +51,14 @@ export const Customer = ({ isEdit = false, user }: TWidgetUserCustomer) => {
           name={EProfileCustomerTabs.jobs}
           label={t('customer_projects')}
           key={1}>
-          <UI.Jobs {...user} />
+          <UI.Jobs {...user} isEdit={isEdit} />
         </Tabs.Tab>
 
         <Tabs.Tab
           name={EProfileCustomerTabs.reviews}
           label={t('customer_reviews')}
           key={2}>
-          <UI.Reviews {...user} />
+          <UI.ReviewsCollapsible {...user} isEdit={isEdit} />
         </Tabs.Tab>
       </Tabs.Container>
     </S.Container>

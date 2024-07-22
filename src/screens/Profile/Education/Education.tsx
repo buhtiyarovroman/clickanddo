@@ -76,6 +76,8 @@ export const Education = () => {
 
         <Background.Scroll
           style={styles.main}
+          nestedScrollEnabled
+          keyboardShouldPersistTaps={'handled'}
           contentContainerStyle={{ paddingBottom: height + 16 }}
           pHorizontal={20}>
           <EducationForm ref={formRef} isEdit={isEdit} />

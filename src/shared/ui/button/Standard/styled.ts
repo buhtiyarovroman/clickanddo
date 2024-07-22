@@ -26,6 +26,7 @@ export const StyledButton = styled(TouchableOpacity)<TStyledButton>`
 `
 
 export const StyledText = styled(Styled.LMedium)<TStyledText>`
+  text-align: center;
   /* If transparent */
   ${({ color, disabled }) =>
     !disabled &&

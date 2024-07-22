@@ -25,7 +25,8 @@ const App = () => {
   Geocoder.init(GOOGLE_API_KEY)
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundary
+      onError={error => Sentry.captureException(`ERROR => ${error}`)}>
       <Navigator />
     </ErrorBoundary>
   )

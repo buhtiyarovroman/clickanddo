@@ -77,6 +77,7 @@ export const Work = () => {
         <Background.Scroll
           pHorizontal={20}
           style={styles.main}
+          nestedScrollEnabled
           keyboardShouldPersistTaps={'handled'}
           contentContainerStyle={{ paddingBottom: height + 16 }}>
           <WorkForm ref={formRef} isEdit={isEdit} />

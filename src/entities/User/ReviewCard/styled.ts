@@ -1,11 +1,11 @@
 import { FLEX, MARGIN } from '@/shared/ui/utils'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
 import { TStyledContainer } from './types'
 import { EColors } from '@/shared/ui/Styled'
 import { SRegular } from '@/shared/ui/Styled/Styled'
 
-export const ReviewContainer = styled(View).attrs({
+export const ReviewContainer = styled(TouchableOpacity).attrs({
   activeOpacity: 0.8,
 })<TStyledContainer>`
   width: ${({ width }) => width};

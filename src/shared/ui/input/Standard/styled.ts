@@ -41,7 +41,7 @@ export const StyledTextInputContainer = styled(TouchableOpacity)<TStyledInputCon
 `
 
 export const StyledTextInput = styled(TextInput)<TStyledInput>`
-  margin-left: ${({ hasLeftIcon }) => (hasLeftIcon ? '8px' : '0px')};
+  margin-left: ${({ hasLeftIcon }) => (hasLeftIcon ? '10px' : '0px')};
   margin-right: ${({ hasRightIcon }) => (hasRightIcon ? '11px' : '0px')};
   height: auto;
   padding: 0;

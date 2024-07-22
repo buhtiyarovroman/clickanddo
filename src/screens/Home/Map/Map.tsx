@@ -24,7 +24,9 @@ export const Map = () => {
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const { getCurrentLocation, coordinates } = useGetMyPosition({})
+  const { userLocation } = useTypedSelector(getUserSelector)
+
+  const { getCurrentLocation } = useGetMyPosition({})
 
   const useCurrent = {
     [EUserRole.customer]: useGetSpecialists,
@@ -48,7 +50,7 @@ export const Map = () => {
   }, [centerLocation, filterHashtag])
 
   const onShowMyLocation = async () => {
-    const coords = await getCurrentLocation()
+    await getCurrentLocation()
 
     let initialRegion = {
       latitude: 0,
@@ -57,7 +59,7 @@ export const Map = () => {
       longitudeDelta: 0.1021,
     }
 
-    if (!coords?.coordinates) {
+    if (!userLocation) {
       initialRegion = {
         latitude: 52.510605,
         longitude: 13.402759,
@@ -66,10 +68,10 @@ export const Map = () => {
       }
     }
 
-    if (coords?.coordinates) {
+    if (userLocation) {
       initialRegion = {
-        latitude: coords.coordinates.latitude,
-        longitude: coords.coordinates.longitude,
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
         latitudeDelta: 0.1022,
         longitudeDelta: 0.1021,
       }
@@ -94,8 +96,8 @@ export const Map = () => {
           currentIndex={currentIndex}
           setCurrentIndex={setCurrentIndex}
           myPosition={{
-            longitude: coordinates?.longitude,
-            latitude: coordinates?.latitude,
+            longitude: userLocation?.longitude,
+            latitude: userLocation?.latitude,
           }}
         />
         <MapList

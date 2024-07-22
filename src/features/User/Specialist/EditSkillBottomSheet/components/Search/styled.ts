@@ -1,5 +1,5 @@
 import { EColors } from '@/shared/ui/Styled'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native'
 import styled from 'styled-components'
 
 export const SearchContainer = styled(ScrollView).attrs({
@@ -25,3 +25,12 @@ export const SkillItem = styled(TouchableOpacity).attrs({})`
   padding: 8px;
   border-radius: 24px;
 `
+
+export const ListContainer = styled(View)`
+  max-height: 150px;
+  width: 100%;
+`
+
+export const styles = StyleSheet.create({
+  list: { flexWrap: 'wrap', flexDirection: 'row' },
+})

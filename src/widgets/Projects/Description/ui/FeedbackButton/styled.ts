@@ -1,11 +1,9 @@
 import { EColors } from '@/shared/ui/Styled'
-import { TouchableOpacity } from 'react-native'
-import styled from 'styled-components'
+import { StyleSheet } from 'react-native'
 
-export const BackContainer = styled(TouchableOpacity).attrs({
-  activeOpacity: 0.6,
-})`
-  padding: 15px;
-  background-color: ${EColors.primary};
-  border-radius: 100px;
-`
+export const styles = StyleSheet.create({
+  button: {
+    borderWidth: 1,
+    borderColor: EColors.black,
+  },
+})

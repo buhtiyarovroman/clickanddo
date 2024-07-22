@@ -29,7 +29,7 @@ const initialState: TInitialUserState = {
   setting: {
     currency: 'UAH',
   },
-
+  userLocation: null,
   registerData: defaultRegisterData,
 }
 

@@ -28,7 +28,7 @@ export const StyledTextInputContainer = styled(FlexWrapper).attrs({
     `}
 `
 export const StyledTextInput = styled(TextInput)`
-  width: 50%;
+  width: 80%;
   height: 30px;
   padding: 0px;
   ${FONT({})}

@@ -86,54 +86,46 @@ export const ChangeLanguages = forwardRef<
 
   return (
     <View style={styles.main}>
-      {fields.map((el, index) => {
-        return (
-          <Animated.View
-            entering={SlideInRight.duration(500)}
-            exiting={SlideOutLeft.duration(500)}
-            key={el.id}>
-            <FlexWrapper
-              mTop={'16px'}
-              mBottom={'10px'}
-              justify={'space-between'}>
-              <MRegular>
-                {t('language')} {index + 1}
-              </MRegular>
+      {fields.map((el, index) => (
+        <View key={el.id}>
+          <FlexWrapper mTop={'16px'} mBottom={'10px'} justify={'space-between'}>
+            <MRegular>
+              {t('language')} {index + 1}
+            </MRegular>
 
-              {fields.length > 1 && (
-                <Button.IconButton
-                  onPress={() => remove(index)}
-                  icon={'Delete'}
-                />
-              )}
-            </FlexWrapper>
-            <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <SelectLang
-                  value={value}
-                  onChange={onChange}
-                  error={errors.lang?.[index]?.lang?.message}
-                  languages={currentLanguages}
-                />
-              )}
-              name={`lang.${index}.lang`}
-            />
+            {fields.length > 1 && (
+              <Button.IconButton
+                onPress={() => remove(index)}
+                icon={'Delete'}
+              />
+            )}
+          </FlexWrapper>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectLang
+                value={value}
+                onChange={onChange}
+                error={errors.lang?.[index]?.lang?.message}
+                languages={currentLanguages}
+              />
+            )}
+            name={`lang.${index}.lang`}
+          />
 
-            <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <SelectType
-                  value={value}
-                  onChange={onChange}
-                  error={errors.lang?.[index]?.level?.message}
-                />
-              )}
-              name={`lang.${index}.level`}
-            />
-          </Animated.View>
-        )
-      })}
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <SelectType
+                value={value}
+                onChange={onChange}
+                error={errors.lang?.[index]?.level?.message}
+              />
+            )}
+            name={`lang.${index}.level`}
+          />
+        </View>
+      ))}
 
       <Button.Standard mTop={'16px'} text={t('add')} onPress={onAddLang} />
     </View>

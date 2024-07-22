@@ -21,4 +21,5 @@ export type TListStack = {
   [EScreens.ListPublicationStack]: TNavigatorScreenParams<TPublicationStack>
   [EScreens.ListJobs]: TNavigatorScreenParams<TJobStack>
   [EScreens.ListMap]: TListStackMapScreenParams
+  [EScreens.HomeNotifications]: undefined
 }

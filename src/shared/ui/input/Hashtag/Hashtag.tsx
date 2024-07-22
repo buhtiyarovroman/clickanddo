@@ -24,17 +24,15 @@ export const Hashtag = ({
 }: THashtagInputProps) => {
   const isLimit = limit ? value.length === limit : false
 
-  const renderItem = (item: THashTag) => {
-    return (
-      <HashtagItem
-        isActive
-        key={item._id}
-        showClose
-        onPressClose={onDelete}
-        {...item}
-      />
-    )
-  }
+  const renderItem = (item: THashTag) => (
+    <HashtagItem
+      isActive
+      key={item._id}
+      showClose
+      onPressClose={onDelete}
+      {...item}
+    />
+  )
 
   return (
     <Container {...props}>

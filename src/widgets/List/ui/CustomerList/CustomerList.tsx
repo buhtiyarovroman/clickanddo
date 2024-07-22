@@ -13,11 +13,12 @@ import * as S from './styled'
 import { useFindHashtags } from '@/features/Projects/hooks/useFindHashtags'
 import { HashtagAccordion } from '@/widgets/HashtagAccordion'
 import { THashTag } from '@/entities/User/models'
-import { Button } from '@/shared/ui/button'
 import { useNavigation } from '@/features/hooks'
 import { EScreens } from '@/app/navigation'
 import { ListWidgets } from '../../index'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useIsFocused } from '@react-navigation/native'
+import { EColors } from '@/shared/ui/Styled'
 
 type TCustomerListProps = { onlyList?: boolean }
 
@@ -25,6 +26,8 @@ export const CustomerList = ({ onlyList = false }: TCustomerListProps) => {
   const { navigate } = useNavigation()
 
   const { bottom } = useSafeAreaInsets()
+
+  const isFocused = useIsFocused()
 
   const [height, setHeight] = useState(0)
   const [selectedHashtag, setSelectedHashtag] = useState<THashTag[]>([])
@@ -39,12 +42,12 @@ export const CustomerList = ({ onlyList = false }: TCustomerListProps) => {
   const { publication, getMore, loadMoreLoading, filterData, getFirstPage } =
     useGetPublicationWithPagination({
       limit: 10,
-      hashtag: selectedHashtag.map(item => item._id),
+      hashtag: ids,
     })
 
   useEffect(() => {
     getFirstPage()
-  }, [selectedHashtag])
+  }, [selectedHashtag, isFocused])
 
   const ref = useRef<TBottomSheetBaseRef | null>(null)
   const { t } = useTranslation()
@@ -68,12 +71,22 @@ export const CustomerList = ({ onlyList = false }: TCustomerListProps) => {
       {!onlyList && (
         <S.InputContainer>
           <Input.Search
-            width={'80%'}
+            width={'60%'}
             value={search}
             onChange={setSearch}
             label={t('tag_search')}
             placeholder={t('search_by_category')}
           />
+
+          <S.FilterContainer onPress={goMap}>
+            <Icon
+              height={20}
+              width={20}
+              name={'RoadMap'}
+              size={24}
+              fill={EColors.white}
+            />
+          </S.FilterContainer>
 
           <S.FilterContainer onPress={onOpen}>
             <Icon height={20} width={20} name={'Filter'} size={24} />
@@ -95,12 +108,6 @@ export const CustomerList = ({ onlyList = false }: TCustomerListProps) => {
             getDataHeight={setHeight}
           />
         </S.HashTagsContainer>
-      )}
-
-      {!onlyList && (
-        <S.ButtonContainer>
-          <Button.Standard text={t('go_map')} onPress={goMap} />
-        </S.ButtonContainer>
       )}
 
       <FlatList

@@ -8,6 +8,7 @@ export enum EPushType {
 }
 
 export type TNotificationPayload = {
+  recipients: string[]
   type: EPushType
   id: string
   action: TPushActionEnum

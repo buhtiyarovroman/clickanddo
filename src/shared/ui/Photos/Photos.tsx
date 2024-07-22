@@ -22,7 +22,7 @@ import { Input } from '@/shared/ui/input'
 import { v4 as uuidv4 } from 'uuid'
 import { images } from '@/shared/config'
 
-const maxSizeMB = 100
+const maxSizeMB = 6 * 1024 * 1024
 
 export const Photos = ({
   photos = [],
@@ -47,15 +47,56 @@ export const Photos = ({
     </AddImage>
   )
 
-  const onValidate = (image: ImageOrVideo) => {
-    const sizeMB = image.size * 0.000001
+  const onValidate = async (image: ImageOrVideo | ImageOrVideo[]) => {
+    if (multiple) {
+      if (Array.isArray(image)) {
+        let validation = image.map(item => {
+          if (item.size > maxSizeMB) {
+            return false
+          }
 
-    if (sizeMB > maxSizeMB) {
-      Toast.show({ type: 'error', text1: t('errors.photo_size') })
-      return false
+          return true
+        })
+
+        let validationImage = image.filter(item => {
+          console.log('validate =>', item.size, maxSizeMB)
+          return item.size < maxSizeMB
+        })
+
+        let invalidIndexes = validation.map((item, index) =>
+          !item ? index : undefined,
+        )
+
+        let res = invalidIndexes.filter(item => item !== undefined)
+
+        if (res.length) {
+          Toast.show({
+            type: 'error',
+            text1: t('errors.photo_size_index', {
+              index: res.map(item => (item || 0) + 1).join(', '),
+            }),
+          })
+
+          return validationImage
+        }
+
+        return validationImage
+      }
+
+      return image
     }
 
-    return true
+    if (typeof image === 'object') {
+      let data = image as ImageOrVideo
+      const sizeMB = data.size
+
+      if (sizeMB > maxSizeMB) {
+        Toast.show({ type: 'error', text1: t('errors.photo_size') })
+        return undefined
+      }
+
+      return image
+    }
   }
 
   const onDelete = (id: string) => {
@@ -90,6 +131,8 @@ export const Photos = ({
   }
 
   const onGetArrayPath = (path: string[]) => {
+    console.log('array paths')
+
     const paths = path.map(el => ({ id: uuidv4(), path: el }))
 
     onChange([...photos, ...paths])
@@ -123,7 +166,9 @@ export const Photos = ({
             renderContent={renderContent ? renderContent : renderDefaultContent}
             onValidate={onValidate}
             onGetPhotoPath={photo => !multiple && onGetPath(photo)}
-            onGetPhotoArrayPath={photos => multiple && onGetArrayPath(photos)}
+            onGetPhotoArrayPath={photoArray =>
+              multiple && onGetArrayPath(photoArray)
+            }
             multiple={multiple}
             maxFiles={maxFiles - photos.length}
           />
@@ -132,7 +177,7 @@ export const Photos = ({
 
       <FlexWrapper justify={'flex-end'}>
         {error && (
-          <SRegular style={{ width: '80%' }} color={EColors.error}>
+          <SRegular style={styles.text} color={EColors.error}>
             {error}
           </SRegular>
         )}

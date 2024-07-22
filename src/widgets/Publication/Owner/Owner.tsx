@@ -45,7 +45,7 @@ export const Owner = ({ id }: TOwnerProps) => {
 
     onAddFavorite({
       favorite: id,
-      hashtag: owner.hashtag[0]._id,
+      hashtag: owner?.hashtag?.[0]?._id,
       name: owner.name || '' + ' ' + owner.secondName || '',
       type: 'specialist',
     })
@@ -84,13 +84,12 @@ export const Owner = ({ id }: TOwnerProps) => {
               backgroundColor: inFavorites ? EColors.grey_200 : EColors.primary,
             }}
             disabled={addLoading || loading}
+            onPress={onPressSubscribe}
             width="130px"
             height="44px">
             {loading && <Loader.Standard color={EColors.white} />}
             {!loading && (
-              <LRegular
-                color={inFavorites ? EColors.black : EColors.white}
-                onPress={onPressSubscribe}>
+              <LRegular color={inFavorites ? EColors.black : EColors.white}>
                 {inFavorites && t('unsubscribe')}
                 {!inFavorites && t('subscribe')}
               </LRegular>

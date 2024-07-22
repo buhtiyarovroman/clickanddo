@@ -650,7 +650,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClicknDo/ClicknDo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 32ZADCJE3R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ClicknDo/Info.plist;
@@ -684,7 +684,7 @@
 				CODE_SIGN_ENTITLEMENTS = ClicknDo/ClicknDo.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 35;
 				DEVELOPMENT_TEAM = 32ZADCJE3R;
 				INFOPLIST_FILE = ClicknDo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ClicknDo;

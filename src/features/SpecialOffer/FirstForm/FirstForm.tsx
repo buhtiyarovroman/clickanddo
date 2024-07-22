@@ -79,7 +79,7 @@ export const FirstForm = forwardRef<
       </View>
       <Controller
         control={control}
-        render={({ field: { value, onChange } }) => (
+        render={({ field: { value } }) => (
           <Input.GooglePlaces
             disableFormatted
             value={value}

@@ -1,12 +1,10 @@
-import { EColors } from '@/shared/ui/Styled'
-import { FLEX } from '@/shared/ui/utils'
-import { View } from 'react-native'
-import styled from 'styled-components'
+import { StyleSheet } from 'react-native'
 
-export const StatusContainer = styled(View)<{ backgroundColor: EColors }>`
-  padding: 3px 10px;
-  border-radius: 14px;
-  width: auto;
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  ${FLEX({})}
-`
+export const styles = StyleSheet.create({
+  main: { fontWeight: '800' },
+  image: {
+    width: 44,
+    height: 44,
+    borderRadius: 8,
+  },
+})

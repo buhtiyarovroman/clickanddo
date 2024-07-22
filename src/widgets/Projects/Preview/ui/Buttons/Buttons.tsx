@@ -76,6 +76,7 @@ export const Buttons = ({ onSuccess = () => {} }: TProjectPreviewMainProps) => {
         hashtag: createProjects.hashtag.map(el => el._id),
         additionalService: addService,
         location: location,
+
         images: undefined,
         status: status,
       }
@@ -85,7 +86,7 @@ export const Buttons = ({ onSuccess = () => {} }: TProjectPreviewMainProps) => {
 
         await ProjectEntities.ProjectsService.patchProject({
           id: createProjects.id,
-          data: { ...data },
+          data: { ...data, projectResponses: [] },
         })
 
         await ProjectEntities.ProjectsService.patchProjectStatus({

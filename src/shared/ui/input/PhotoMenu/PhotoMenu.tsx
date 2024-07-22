@@ -4,7 +4,7 @@ import { TPhotoMenuProps } from './types'
 import { Icon } from '../../Icon'
 import { FlexWrapper, MRegular } from '../../Styled/Styled'
 import { useTranslation } from 'react-i18next'
-import ImagePicker from 'react-native-image-crop-picker'
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker'
 import Popover from 'react-native-popover-view'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
@@ -39,34 +39,35 @@ export const PhotoMenu = ({
           compressImageQuality: 0.6,
         })
 
-    method.then(image => {
-      let valid = false
+    method.then(async image => {
+      let validImage: ImageOrVideo | ImageOrVideo[] | undefined
 
       if (onValidate) {
-        valid = onValidate(image)
+        validImage = await onValidate(image)
       }
 
       if (!onValidate) {
-        valid = true
+        validImage = image
       }
 
-      if (valid && multiple && Array.isArray(image)) {
-        onGetPhotoArrayPath(image.map(el => el.path))
-        onGetPhotoArray(image)
+      if (!!validImage && multiple && Array.isArray(validImage)) {
+        onGetPhotoArrayPath(validImage.map(el => el.path))
+        onGetPhotoArray(validImage)
         setVisible(false)
 
         return
       }
 
-      if (valid && isCamera && multiple) {
-        onGetPhotoArrayPath([image.path])
-        onGetPhotoArray([image])
+      if (!!validImage && isCamera && multiple) {
+        onGetPhotoArrayPath([validImage.path])
+        onGetPhotoArray([validImage])
         setVisible(false)
 
         return
       }
 
-      valid && onGetPhotoPath(image.path)
+      onGetPhotoPath(validImage.path)
+
       setVisible(false)
     })
   }

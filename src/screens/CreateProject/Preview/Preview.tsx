@@ -22,8 +22,8 @@ export const Preview = () => {
   const onNavigateSuccess = (isDraft: boolean, isSpecialist: boolean) => {
     navigate(EScreens.ProjectCreateSuccess, {
       ...nav,
-      isDraft: createProjects.status === 'hold' || isDraft,
-      isSpecialist: isSpecialist,
+      isDraft,
+      isSpecialist,
     })
   }
 

@@ -1,9 +1,19 @@
 import { EColors } from '@/shared/ui/Styled'
 import { Image } from '@/shared/ui/image'
-import { Dimensions, View } from 'react-native'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import styled from 'styled-components'
 
 const { width: viewportWidth } = Dimensions.get('window')
+
+export const styles = StyleSheet.create({
+  dotContainer: {
+    position: 'absolute',
+    bottom: 40,
+    zIndex: 10000,
+    alignSelf: 'center',
+    width: '100%',
+  },
+})
 
 export const StyledImage = styled(Image.Standard)`
   height: 300px;

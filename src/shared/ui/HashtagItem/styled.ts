@@ -18,7 +18,7 @@ export const SkillItem = styled(TouchableOpacity).attrs({ activeOpacity: 1 })<{
     isActive ? EColors.primary : EColors.grey_200};
   padding: 8px;
   border-radius: 24px;
-  margin-bottom: 12px;
+  margin-bottom: 5px;
 
   ${FLEX({})}
 `

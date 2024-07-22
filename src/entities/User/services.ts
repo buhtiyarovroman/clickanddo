@@ -79,7 +79,10 @@ export class UserService {
   static async pathUserMePhoto(
     data: TPatchUserMePhotoRequest['payload'],
   ): TResponse<TPatchUserMePhotoRequest['response']> {
+    console.log('data =>', data)
     const formData = generateFormData(data, ['photo'])
+
+    console.log('formData =>', formData)
 
     return apiPrivate.patch(`${path}/me/photo`, formData, {
       headers: {
@@ -148,7 +151,7 @@ export class UserService {
   static async getHashtag(
     params: TGetHashtagRequest['payload'],
   ): TResponse<TGetHashtagRequest['response']> {
-    return apiPrivate.get(`/user/hashtag`, { params })
+    return apiPrivate.get(`/user/hashtag/search`, { params })
   }
 
   //Get hashtag by id

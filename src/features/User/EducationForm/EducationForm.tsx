@@ -4,14 +4,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated'
 
-import {
-  Hr,
-  MRegular,
-  H3SemiBold,
-  FlexWrapper,
-} from '@/shared/ui/Styled/Styled'
+import { MRegular, H3SemiBold, FlexWrapper } from '@/shared/ui/Styled/Styled'
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
 import { EColors } from '@/shared/ui/Styled'
@@ -95,10 +89,7 @@ export const EducationForm = forwardRef<TEducationFormRef, TEducationFormProps>(
     return (
       <View style={styles.main}>
         {fields.map((el, index) => (
-          <Animated.View
-            entering={SlideInRight.duration(500)}
-            exiting={SlideOutLeft.duration(500)}
-            key={el.id}>
+          <View key={el.id}>
             {/* Title and delete button */}
             <FlexWrapper
               mTop={'16px'}
@@ -225,7 +216,7 @@ export const EducationForm = forwardRef<TEducationFormRef, TEducationFormProps>(
               )}
               name={`${EEducationFormFields.education}.${index}.from`}
             />
-          </Animated.View>
+          </View>
         ))}
 
         <Button.Standard mTop={'16px'} text={t('add')} onPress={onAddLang} />

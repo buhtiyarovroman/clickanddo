@@ -74,6 +74,7 @@ export const CustomerList = () => {
         onRefresh={() => getFirstPage(true)}
         showStatus
         hideCreatedAt
+        needChatDetect
       />
     ),
     [getFirstPage, onGoJob, activeTab, setProjects],

@@ -3,6 +3,9 @@ import { PermissionsAndroid, Platform } from 'react-native'
 import RNGeolocation from 'react-native-geolocation-service'
 import { formattedAddressLocation, getFormattedAddress } from '@/shared/utils'
 import Geocoder from 'react-native-geocoding'
+import { useTypedSelector } from '@/app/store'
+import { getUserSelector, userActions } from '@/entities/User'
+import { useDispatch } from 'react-redux'
 
 type TUseGetMyPosition = {
   disableFormatter?: boolean
@@ -11,6 +14,7 @@ type TUseGetMyPosition = {
 export const useGetMyPosition = ({
   disableFormatter = false,
 }: TUseGetMyPosition) => {
+  const dispatch = useDispatch()
   const [coordinates, setCoordinates] =
     useState<RNGeolocation.GeoCoordinates | null>(null)
   const [formattedAddress, setFormattedAddress] = useState<string>('')
@@ -76,6 +80,14 @@ export const useGetMyPosition = ({
         }
 
         if (formattedLocation) {
+          dispatch(
+            userActions.setState({
+              userLocation: {
+                longitude: coords.longitude,
+                latitude: coords.latitude,
+              },
+            }),
+          )
           setCoordinates(coords)
           setFormattedAddress(formattedLocation)
 

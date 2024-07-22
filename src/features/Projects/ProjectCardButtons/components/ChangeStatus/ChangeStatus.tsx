@@ -6,7 +6,7 @@ import { TProjectCardButtonsChangeStatusProps } from './types'
 import { ProjectsService } from '@/entities/Projects/services'
 import { LoaderContext } from '@/app/contexts/Loader'
 import { EProjectTypes } from '@/widgets/Projects/ProjectCard/types'
-import { FlexWrapper, MRegular } from '@/shared/ui/Styled/Styled'
+import { FlexWrapper } from '@/shared/ui/Styled/Styled'
 import { styles } from './styled'
 
 export const ChangeStatus = ({
@@ -18,11 +18,15 @@ export const ChangeStatus = ({
   isProgressStatus = false,
   onOpenReview = () => {},
   isPendingSpecialistStatus = false,
+  origin,
 }: TProjectCardButtonsChangeStatusProps) => {
   const { t } = useTranslation()
   const { setLoading } = useContext(LoaderContext)
 
   const onMarkDone = async (newStatus: EProjectTypes) => {
+    //Deleting project if will set  status = rejected_by_specialist and have origin
+    const isRejected =
+      newStatus === EProjectTypes.rejected_by_specialist && !!origin
     if (!_id) {
       console.error('no have project id')
       return
@@ -31,10 +35,16 @@ export const ChangeStatus = ({
     try {
       setLoading(true)
 
-      await ProjectsService.patchProjectStatus({
-        id: _id,
-        status: `${newStatus}`,
-      })
+      if (isRejected) {
+        await ProjectsService.deleteProject(_id)
+      }
+
+      if (!isRejected) {
+        await ProjectsService.patchProjectStatus({
+          id: _id,
+          status: `${newStatus}`,
+        })
+      }
 
       if (newStatus === EProjectTypes.done) {
         onOpenReview()
@@ -52,18 +62,6 @@ export const ChangeStatus = ({
 
   return (
     <>
-      {!isCustomer && !!specialist && isProgressStatus && (
-        <FlexWrapper justify={'space-between'}>
-          <Button.Standard
-            width={'100%'}
-            mTop={'16px'}
-            color={EColors.black}
-            onPress={() => onMarkDone(EProjectTypes.mark_done)}
-            text={t('tabs_list.completed')}
-          />
-        </FlexWrapper>
-      )}
-
       {!isCustomer && !!specialist && isPendingSpecialistStatus && (
         <FlexWrapper flexDirection={'column'}>
           <Button.Standard
@@ -81,27 +79,6 @@ export const ChangeStatus = ({
             onPress={() => onMarkDone(EProjectTypes.rejected_by_specialist)}
             text={t('refuse')}
           />
-        </FlexWrapper>
-      )}
-
-      {isCustomer && !!specialist && isMarkDoneStatus && (
-        <FlexWrapper mTop={'16px'} justify={'space-between'}>
-          <Button.Standard
-            height={'45px'}
-            width={'49%'}
-            style={styles.button}
-            color={EColors.transparent}
-            onPress={() => onMarkDone(EProjectTypes.in_progress)}>
-            <MRegular color={EColors.black}>{t('cancel')}</MRegular>
-          </Button.Standard>
-
-          <Button.Standard
-            height={'45px'}
-            width={'49%'}
-            color={EColors.black}
-            onPress={() => onMarkDone(EProjectTypes.done)}>
-            <MRegular color={EColors.white}>{t('mark_completed')}</MRegular>
-          </Button.Standard>
         </FlexWrapper>
       )}
     </>

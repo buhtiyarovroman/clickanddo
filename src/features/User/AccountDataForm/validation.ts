@@ -9,6 +9,8 @@ export const accountDataFormValidation = z.object({
   [EAccountDataFormFields.login]: Schemas.name,
   [EAccountDataFormFields.phone]: Schemas.phone,
   [EAccountDataFormFields.location]: Schemas.name,
-  [EAccountDataFormFields.coordinates]: z.array(z.number()),
+  [EAccountDataFormFields.coordinates]: z
+    .array(z.number())
+    .min(1, { message: 'validation_error.coordinates' }),
   [EAccountDataFormFields.description]: Schemas.description,
 })

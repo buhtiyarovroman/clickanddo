@@ -36,6 +36,7 @@ import { TProject } from '@/entities/Projects/models'
 import { HashtagItem } from '@/shared/ui/HashtagItem'
 import { EmptyHashtag } from '@/entities/User/EmptyHashtag'
 import { useIsFocused } from '@react-navigation/native'
+import { useSharedValue, withTiming } from 'react-native-reanimated'
 
 const nicknameReg = /^@.*/
 
@@ -50,11 +51,24 @@ export const Search = () => {
   const [dataHeight, setDataHeight] = useState<number>(0)
   const [resultHeight, setResultHeight] = useState<number>(0)
 
-  const ids = filterHashtag.map(item => item._id)
-
   const isCustomer = user?.role === 'customer'
 
   const [searchInput, setSearchInput] = useState('')
+
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const padding = useSharedValue(0)
+
+  useEffect(() => {
+    if (modalOpen) {
+      padding.value = withTiming(
+        dataHeight + (filterHashtag.length === 3 ? 0 : resultHeight),
+      )
+      return
+    }
+
+    padding.value = withTiming(0)
+  }, [modalOpen, filterHashtag.length])
 
   const {
     data: projects,
@@ -93,21 +107,20 @@ export const Search = () => {
     onAddHashTag,
     fetchHashtags,
     loading: foundHashTagsLoading,
+    ...paginationProps
   } = useFindHashtags()
 
   useEffect(() => {
     if (nicknameReg.test(searchInput)) {
-      console.log('its nickname')
       getSpecialistsFP()
     }
     if (!nicknameReg.test(searchInput)) {
-      console.log('its hashtag')
       setSearch(searchInput)
     }
   }, [searchInput])
 
   useEffect(() => {
-    isFocused && fetchHashtags()
+    isFocused && fetchHashtags(0)
   }, [isFocused])
 
   useEffect(() => {
@@ -181,15 +194,13 @@ export const Search = () => {
     setResultHeight(height + 8)
   }
 
-  const renderLoader = useCallback(
-    () =>
-      projectsLoadMoreLoading || specialistsLoadMoreLoading ? (
-        <Loader.Standard size={30} />
-      ) : (
-        <View style={{ height: TAB_HEIGHT + 20 }} />
-      ),
-    [projectsLoadMoreLoading, specialistsLoadMoreLoading],
-  )
+  const renderLoader = useCallback(() => {
+    if (projectsLoadMoreLoading || specialistsLoadMoreLoading) {
+      return <Loader.Standard size={30} />
+    }
+
+    return <View style={{ height: TAB_HEIGHT + 20 }} />
+  }, [projectsLoadMoreLoading, specialistsLoadMoreLoading])
 
   const renderSeparator = () => <View style={styles.separator} />
 
@@ -197,11 +208,11 @@ export const Search = () => {
     <FlexWrapper justify={'space-between'}>
       <CustomInput.Search
         value={searchInput}
-        onChange={value => {
-          setSearchInput(value), console.log('value =>', value)
-        }}
+        onChange={setSearchInput}
         width={'80%'}
-        label={t('tag_search')}
+        label={
+          searchInput.includes('@') ? t('nickname_search') : t('tag_search')
+        }
         placeholder={t('search_by_category')}
       />
 
@@ -237,6 +248,23 @@ export const Search = () => {
     return <></>
   }
 
+  const renderHashTags: ListRenderItem<THashTag> = ({ item }) => (
+    <HashtagItem key={item._id} {...item} onPress={onSearchItemPress} />
+  )
+
+  const onGetMore = () => {
+    if (paginationProps.canGetMoreItems && !foundHashTagsLoading) {
+      paginationProps.getMore()
+    }
+  }
+
+  const renderLoading = () => {
+    if (foundHashTagsLoading) {
+      return <Loader.Standard />
+    }
+    return <></>
+  }
+
   return (
     <Background.SafeArea edges={['bottom']}>
       <Header.Standard goBack title={t('tag_search')} />
@@ -248,6 +276,7 @@ export const Search = () => {
           dataLength={filterHashtag.length}
           searchLength={search.length + 1}
           resultLength={foundHashTags.length}
+          onChangeOpen={setModalOpen}
           inputChildren={renderChildrenInput}>
           {/* Store hashtag */}
           <S.Tags onLayout={handleDataHeight}>
@@ -266,19 +295,18 @@ export const Search = () => {
           </S.Tags>
 
           {foundHashTagsLoading && <Loader.Standard size={30} />}
-          <S.Tags onLayout={handleResultHeight}>
+          <S.FoundedTags onLayout={handleResultHeight}>
             {/* Searchable hashtag */}
             {filterHashtag.length < 3 && foundHashTags.length !== 0 && (
               <>
-                {foundHashTags
-                  .filter(el => !ids.includes(el._id))
-                  .map(item => (
-                    <HashtagItem
-                      key={item._id}
-                      {...item}
-                      onPress={onSearchItemPress}
-                    />
-                  ))}
+                <FlatList
+                  nestedScrollEnabled
+                  data={foundHashTags}
+                  contentContainerStyle={S.styles.list}
+                  renderItem={renderHashTags}
+                  onEndReached={onGetMore}
+                />
+                {foundHashTagsLoading && renderLoading()}
               </>
             )}
 
@@ -289,11 +317,11 @@ export const Search = () => {
                   <EmptyHashtag onPress={onAddHashTag} />
                 </>
               )}
-          </S.Tags>
+          </S.FoundedTags>
         </Animation.Container>
 
         {/* TODO - REFACTOR */}
-        <ListContainer>
+        <ListContainer style={{ paddingTop: padding }}>
           <FlatList
             style={styles.projectsList}
             data={CurrentData}

@@ -10,7 +10,7 @@ import {
   setHours,
   addMinutes,
 } from 'date-fns'
-
+import { TForm as TProjectInfoForm } from './ui/ProjectInfoForm/types'
 export const getDatesArray = () => {
   const today = new Date()
 
@@ -64,17 +64,15 @@ export const areDatesEqual = (date1: Date, date2: Date) => {
   return d1.getTime() === d2.getTime()
 }
 
-export const areHoursEqual = (date1: Date, date2: Date) => {
-  return (
-    date1.getHours() === date2.getHours() &&
-    date1.getMinutes() === date2.getMinutes()
-  )
-}
+export const areHoursEqual = (date1: Date, date2: Date) =>
+  date1.getHours() === date2.getHours() &&
+  date1.getMinutes() === date2.getMinutes()
 
 export const transformPublicationToProject = async (
   publication: TPublication,
   date: Date,
   time: Date,
+  data: TProjectInfoForm,
 ): Promise<TPostProjectRequest['payload']> => {
   const { data: user } = await UserService.getUserById({
     id: publication.owner,
@@ -93,14 +91,22 @@ export const transformPublicationToProject = async (
   return {
     origin: publication._id,
     originType: publication.type,
-    name: publication.heading,
-    description: publication.description,
+    name: data.name,
+    description: data.description,
     relevantUntil: publication.relevantUntil,
-    budget: 0,
+    budget: data.budget,
     startDate: combined.toString(),
-    currency: publication.currency,
-    hashtag: publication.hashtag.map(el => el._id),
-    location: publication.location,
+    currency: data.currency,
+    hashtag: [],
+    ...(data.location && data.location.length
+      ? {
+          location: {
+            coordinates: data.location,
+            type: 'Point',
+          },
+        }
+      : {}),
+    address: data.address,
     specialist: publication.owner,
     projectResponses: [
       {

@@ -1,3 +1,6 @@
-import { TImageType } from "../image/Standard/types";
+import { TImageType } from '../image/Standard/types'
 
-export type TProjectPreviewSliderProps = { images?: string[] imageType?:TImageType }
+export type TProjectPreviewSliderProps = {
+  images?: string[]
+  imageType?: TImageType
+}

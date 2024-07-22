@@ -5,4 +5,5 @@ export type TUseGetSpecialistProps = {
   location?: number[]
   maxDistance?: number
   login?: string
+  category?: string[]
 }

@@ -2,13 +2,13 @@ import { useTypedSelector } from '@/app/store'
 import { getUserSelector } from '@/entities/User'
 import { Icon } from '@/shared/ui/Icon'
 import { Image } from '@/shared/ui/image'
-import { Input } from '@/shared/ui/input'
+// import { Input } from '@/shared/ui/input'
 import { EColors } from '@/shared/ui/Styled'
 import { FlexWrapper, MRegular, Touchable } from '@/shared/ui/Styled/Styled'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableWithoutFeedback, View } from 'react-native'
-import { styles } from './styled'
+import { styles, Input, InputContainer } from './styled'
 import { TCommentInputProps } from './types'
 
 export const CommentInput = ({
@@ -44,14 +44,22 @@ export const CommentInput = ({
             height="100%"
           />
         </View>
-        <Input.TextArea
+
+        <InputContainer>
+          <Input
+            value={text}
+            onChangeText={setText}
+            placeholder={t('comment_placeholder')}
+          />
+        </InputContainer>
+        {/* <Input.TextArea
           value={text}
           onChange={setText}
           placeholder={t('comment_placeholder')}
           width={'70%'}
           height={40}
           label={t('comment_placeholder')}
-        />
+        /> */}
         <TouchableWithoutFeedback disabled={loading} onPress={createComment}>
           <FlexWrapper style={styles.button_wrapper}>
             <Icon

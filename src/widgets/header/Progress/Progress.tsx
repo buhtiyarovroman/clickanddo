@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
+import { StyleSheet, View, BackHandler } from 'react-native'
 import { Header } from '..'
 import { TProgressHeaderProps } from './types'
 import { useNavigation } from '@/features/hooks'
@@ -8,6 +8,9 @@ import { Icon } from '@/shared/ui/Icon'
 import { PageIndicator } from '@/shared/ui/PageIndicator'
 import { EColors } from '@/shared/ui/Styled'
 import { IconContainer } from './styled'
+import { Modal } from '@/shared/ui/modals'
+import { TModalViewRef } from '@/shared/ui/modals/ViewModal'
+import { useTranslation } from 'react-i18next'
 
 export const Progress = ({
   title = '',
@@ -17,9 +20,12 @@ export const Progress = ({
   hideProgress = false,
   isClose = false,
   onPressClose = () => {},
+  needBackHandler = false,
   ...props
 }: TProgressHeaderProps) => {
+  const { t } = useTranslation()
   const navigation = useNavigation()
+  const ref = useRef<TModalViewRef>(null)
 
   const _onGoBack = () => {
     if (onGoBack) {
@@ -27,12 +33,44 @@ export const Progress = ({
 
       return
     }
+
     navigation.goBack()
+  }
+
+  const onPressIcon = () => {
+    if (needBackHandler) {
+      ref.current?.open()
+      return
+    }
+
+    _onGoBack()
+  }
+
+  const onClose = () => {
+    ref.current?.close()
   }
 
   const _onPressClose = () => {
     onPressClose()
   }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        if (needBackHandler) {
+          ref.current?.open()
+        } else {
+          navigation.goBack()
+        }
+
+        return true
+      },
+    )
+
+    return () => backHandler.remove()
+  }, [])
+
   return (
     <>
       <Header.Container addHeight={hideProgress ? 0 : 30}>
@@ -43,7 +81,7 @@ export const Progress = ({
           <FlexWrapper mBottom={'16px'} width={'100%'} justify={'center'}>
             {/* Go back button */}
             {withGoBack && (
-              <IconContainer onPress={_onGoBack}>
+              <IconContainer onPress={onPressIcon}>
                 <Icon name={'Back'} size={18} />
               </IconContainer>
             )}
@@ -64,6 +102,13 @@ export const Progress = ({
           )}
         </FlexWrapper>
       </Header.Container>
+
+      <Modal.AcceptModal
+        title={t('modal_go_back')}
+        ref={ref}
+        onPressAgree={_onGoBack}
+        onPressDisagree={onClose}
+      />
     </>
   )
 }

@@ -45,28 +45,26 @@ export const AnimatedSearch = ({ onButtonPress }: TAnimatedSearchProps) => {
     loading: foundHashTagsLoading,
   } = useFindHashtags()
 
-  const renderChildrenInput = () => {
-    return (
-      <FlexWrapper justify={'space-between'}>
-        <TouchableOpacity
-          onPress={() => navDispatch(DrawerActions.openDrawer())}>
-          <Icon name={'DrawerBurger'} size={20} />
-        </TouchableOpacity>
-        <CustomInput.Search
-          height="50px"
-          value={search}
-          onChange={setSearch}
-          width={'70%'}
-          label={t('tag_search')}
-          placeholder={t('search_by_category')}
-        />
+  const renderChildrenInput = () => (
+    <FlexWrapper justify={'space-between'}>
+      <TouchableOpacity onPress={() => navDispatch(DrawerActions.openDrawer())}>
+        <Icon name={'DrawerBurger'} size={20} />
+      </TouchableOpacity>
+      <CustomInput.Search
+        height="50px"
+        value={search}
+        onChange={setSearch}
+        width={'70%'}
+        label={t('tag_search')}
+        placeholder={t('search_by_category')}
+      />
 
-        <FilterContainer onPress={onButtonPress}>
-          <Icon name={'Filter'} fill={EColors.white} />
-        </FilterContainer>
-      </FlexWrapper>
-    )
-  }
+      <FilterContainer onPress={onButtonPress}>
+        <Icon name={'Filter'} fill={EColors.white} />
+      </FilterContainer>
+    </FlexWrapper>
+  )
+
   const handleDataHeight = (event: LayoutChangeEvent) => {
     const { height } = event.nativeEvent.layout
     setDataHeight(height + 8)

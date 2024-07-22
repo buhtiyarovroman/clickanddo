@@ -21,34 +21,27 @@ export const JobReviews = ({ _id = '' }: TSpecialistUserJobReviewsProps) => {
 
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const {
-    reviews,
-    getFirstPage,
-    canGetMoreItems,
-    getMore,
-    totalCount,
-    loadMoreLoading,
-  } = useGetUserReviews({ id: _id, limit: 10 })
+  const { reviews, getFirstPage, canGetMoreItems, getMore, totalCount } =
+    useGetUserReviews({ id: _id, limit: 10 })
 
   useEffect(() => {
     if (isFocused) getFirstPage()
   }, [isFocused, _id])
 
-  const renderItem: ListRenderItem<TReview> = ({ item }) => {
-    return (
-      <FlexWrapper
-        width={`${wp(100) - 40}px`}
-        style={{
-          padding: 10,
-        }}>
-        <UserEntities.ReviewCard
-          key={item._id}
-          width={`${wp(100) - 60}px`}
-          {...item}
-        />
-      </FlexWrapper>
-    )
-  }
+  const renderItem: ListRenderItem<TReview> = ({ item }) => (
+    <FlexWrapper
+      width={`${wp(100) - 40}px`}
+      style={{
+        padding: 10,
+      }}>
+      <UserEntities.ReviewCard
+        key={item._id}
+        isMyProfile
+        width={`${wp(100) - 60}px`}
+        {...item}
+      />
+    </FlexWrapper>
+  )
 
   const onGetMore = () => {
     if (canGetMoreItems) {

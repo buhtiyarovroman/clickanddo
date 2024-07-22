@@ -23,7 +23,7 @@ export const Description = ({
       nestedScrollEnabled
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingBottom: bottom + TAB_HEIGHT + 16 }}>
-      <ProjectSlider images={project?.images} />
+      {!!project?.images.length && <ProjectSlider images={project?.images} />}
 
       <ContentContainer isGallery={!!project?.images.length}>
         <ProjectEntities.MainInfo {...project} onGoProfile={onGoProfile} />
@@ -38,7 +38,7 @@ export const Description = ({
 
         <ResponsesSeen {...project} />
 
-        <FeedbackButton {...project} onRefresh={onRefresh} />
+        {!!project && <FeedbackButton {...project} onRefresh={onRefresh} />}
 
         <HoldButtons project={project} onRefresh={onRefresh} />
       </ContentContainer>

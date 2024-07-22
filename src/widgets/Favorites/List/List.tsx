@@ -62,10 +62,10 @@ export const List = () => {
         type={item.type}
         favorite={item.favorite}
         name={item.name}
-        hashtag={getTranslate(item.hashtag?.title || [])}
+        hashtag={getTranslate(item?.hashtag?.title || [])}
         image={
           !isSpecialist
-            ? (item.favorite as TPublication).images[0]
+            ? (item.favorite as TPublication)?.images?.[0]
             : (item.favorite as TUser)?.photo || ''
         }
         onMessagePress={handleMessage}

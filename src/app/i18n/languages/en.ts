@@ -105,6 +105,7 @@ export default {
     wrong_code: 'wrong code ',
     incorrect_code: 'The code entered is not correct ',
     photo_size: 'photo size is too large ',
+    photo_size_index: '{{index}} photos size is too large',
     login_used: 'This nickname is already in use.',
   },
 
@@ -127,6 +128,7 @@ export default {
     min: '',
     max: '',
     choose_grade: 'Grade',
+    coordinates: 'Update the location',
   },
 
   toasts: {
@@ -145,6 +147,7 @@ export default {
     publication_responses: 'You have successfully responded to the publication',
   },
   empty: {
+    profile_hashtag: 'There are no tags on your profile',
     chat_list: 'You have no active chat',
     feedback: 'There are no reviews',
     google_place: 'Start typing to find the city',
@@ -364,6 +367,7 @@ export default {
   contact_specialist: 'Contact with specialist',
   send_message: 'Send the message',
   tag_search: 'Tag search',
+  nickname_search: 'Nickname search',
   mark_completed: 'Mark as completed',
   waiting_customer: 'Waiting for completion by the customer',
   leave_review: 'Leave a review',
@@ -647,4 +651,12 @@ export default {
   show_more: 'Show more ({{value}})',
   report_project: 'Report project',
   agree_logout: 'Are you sure you want to logout?',
+
+  home_empty_hashtags: 'No projects matching your skills',
+  add_skills: 'Add skills',
+  show_all_request: 'Show all project',
+  waiting_approve_response: 'Waiting for the offer to be accepted',
+  you_end_work_project: "You've finished the project?",
+  modal_go_back:
+    'Are you sure you want to log out? All data on the page will be deleted',
 }

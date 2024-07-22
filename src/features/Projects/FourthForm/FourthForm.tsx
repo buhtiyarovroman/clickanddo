@@ -20,6 +20,7 @@ import { getProjectsSelector } from '@/entities/Projects/store'
 import { AndroidSoftInputModes } from 'react-native-keyboard-controller'
 import { Touchable } from './styled'
 import { TCurrencyValue } from '@/widgets/bottomSheet/Currency/types'
+import { getUserSelector } from '@/entities/User'
 
 export const FourthForm = forwardRef<
   TProjectsFourthFormRef,
@@ -27,6 +28,7 @@ export const FourthForm = forwardRef<
 >(({ onChangeValid = () => {}, pBottom = 0 }, ref) => {
   const { t } = useTranslation()
   const { createProjects } = useTypedSelector(getProjectsSelector)
+  const { setting } = useTypedSelector(getUserSelector)
   const [quick, setQuick] = useState(true)
   const {
     control,
@@ -42,11 +44,11 @@ export const FourthForm = forwardRef<
       startDate: createProjects.startDate,
       endDate: createProjects.endDate,
       relevantUntil: addDays(new Date(), 10).toString(),
-      currency: (createProjects.currency as TCurrencyValue) || 'UAH',
+      currency: (setting.currency as TCurrencyValue) || 'UAH',
       budget: createProjects.budget,
     },
   })
-  const [isRemote, setIsRemote] = useState(false)
+  // const [isRemote, setIsRemote] = useState(false)
 
   useEffect(() => {
     onChangeValid(isValid)

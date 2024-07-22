@@ -64,11 +64,17 @@ export const slice = createSlice({
         state.localLastMessage,
         message,
       )
-      state.chatList = onChatCounterChatList(state.chatList, message, false)
+      state.chatList = onChatCounterChatList(
+        state.chatList,
+        message,
+        false,
+        userId,
+      )
       state.projectChatList = onChatCounterChatList(
         state.projectChatList,
         message,
         true,
+        userId,
       )
       state.allUnreadCount = onChangeAllCounters(
         state.allUnreadCount,

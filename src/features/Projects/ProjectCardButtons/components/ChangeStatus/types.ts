@@ -7,4 +7,4 @@ export type TProjectCardButtonsChangeStatusProps = {
   onRefresh?: () => void
   onOpenReview?: () => void
   isPendingSpecialistStatus?: boolean
-} & Partial<Pick<TProject, 'specialist' | '_id'>>
+} & Partial<Pick<TProject, 'specialist' | '_id' | 'origin'>>

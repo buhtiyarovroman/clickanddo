@@ -50,6 +50,7 @@ export const Second = () => {
         activeTextProgress
         page={2}
         count={3}
+        needBackHandler
         onPressClose={onClearNavigate}
       />
 

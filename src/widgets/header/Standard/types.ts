@@ -11,5 +11,6 @@ export type TStandardProps = {
   onPressRightIcon?: () => void
   onPressLeftIcon?: () => void
   onGoBack?: () => void
+  openDriver?: boolean
   disableShadow?: boolean
 }

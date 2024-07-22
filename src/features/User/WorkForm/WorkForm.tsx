@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { useTranslation } from 'react-i18next'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
-import Animated, { SlideInRight, SlideOutLeft } from 'react-native-reanimated'
 
 import { Input } from '@/shared/ui/input'
 import { Button } from '@/shared/ui/button'
@@ -15,6 +14,7 @@ import { FlexWrapper, H3SemiBold, MRegular } from '@/shared/ui/Styled/Styled'
 import { TForm } from './types'
 import { createWorkValid } from './validation'
 import { EEducationFormFields, TWorkFormProps, TWorkFormRef } from './types'
+import { View } from 'react-native'
 
 export const WorkForm = forwardRef<TWorkFormRef, TWorkFormProps>(
   ({ isEdit = false }, ref) => {
@@ -79,10 +79,7 @@ export const WorkForm = forwardRef<TWorkFormRef, TWorkFormProps>(
     return (
       <>
         {fields.map((el, index) => (
-          <Animated.View
-            entering={SlideInRight.duration(500)}
-            exiting={SlideOutLeft.duration(500)}
-            key={el.id}>
+          <View key={el.id}>
             {/* Title and delete button */}
             <FlexWrapper
               mTop={'16px'}
@@ -142,56 +139,52 @@ export const WorkForm = forwardRef<TWorkFormRef, TWorkFormProps>(
                     control={control}
                     render={({
                       field: { onChange: onChangeTo, value: valueTo },
-                    }) => {
-                      return (
-                        <>
-                          <FlexWrapper justify={'space-between'}>
-                            <Input.TouchableDatePicker
-                              width={'47%'}
-                              date={value}
-                              setDate={date => {
-                                onChange(date)
-                                onChangeTo('')
-                              }}
-                              label={t('from')}
-                              error={errors.works?.[index]?.from?.message}
-                            />
+                    }) => (
+                      <>
+                        <FlexWrapper justify={'space-between'}>
+                          <Input.TouchableDatePicker
+                            width={'47%'}
+                            date={value}
+                            setDate={date => {
+                              onChange(date)
+                              onChangeTo('')
+                            }}
+                            label={t('from')}
+                            error={errors.works?.[index]?.from?.message}
+                          />
 
-                            <Input.TouchableDatePicker
-                              width={'47%'}
-                              date={valueTo}
-                              setDate={onChangeTo}
-                              label={t('to')}
-                              disabled={stillWork || !value}
-                              minimumDate={
-                                !!value ? new Date(value) : undefined
-                              }
-                              error={errors.works?.[index]?.to?.message}
-                            />
-                          </FlexWrapper>
-                          <FlexWrapper justify={'flex-start'}>
-                            <Input.Checkbox
-                              size={24}
-                              value={stillWork}
-                              onChange={stillWorkValue => {
-                                setStillWork(stillWorkValue)
-                                stillWorkValue && onChangeTo('')
-                              }}
-                            />
-                            <MRegular color={EColors.grey_600} mLeft={'12px'}>
-                              {t('still_working')}
-                            </MRegular>
-                          </FlexWrapper>
-                        </>
-                      )
-                    }}
+                          <Input.TouchableDatePicker
+                            width={'47%'}
+                            date={valueTo}
+                            setDate={onChangeTo}
+                            label={t('to')}
+                            disabled={stillWork || !value}
+                            minimumDate={!!value ? new Date(value) : undefined}
+                            error={errors.works?.[index]?.to?.message}
+                          />
+                        </FlexWrapper>
+                        <FlexWrapper justify={'flex-start'}>
+                          <Input.Checkbox
+                            size={24}
+                            value={stillWork}
+                            onChange={stillWorkValue => {
+                              setStillWork(stillWorkValue)
+                              stillWorkValue && onChangeTo('')
+                            }}
+                          />
+                          <MRegular color={EColors.grey_600} mLeft={'12px'}>
+                            {t('still_working')}
+                          </MRegular>
+                        </FlexWrapper>
+                      </>
+                    )}
                     name={`${EEducationFormFields.works}.${index}.to`}
                   />
                 </>
               )}
               name={`${EEducationFormFields.works}.${index}.from`}
             />
-          </Animated.View>
+          </View>
         ))}
 
         <Button.Standard mTop={'16px'} text={t('add')} onPress={onAddLang} />

@@ -82,36 +82,34 @@ export const Map = ({}: TMapHeaderProps) => {
     setResultHeight(height + 8)
   }
 
-  const renderCurrentHashtag = (item: THashTag) => {
-    return <HashtagItem isActive {...item} onPress={onPressSelectedHashtag} />
-  }
+  const renderCurrentHashtag = (item: THashTag) => (
+    <HashtagItem isActive {...item} onPress={onPressSelectedHashtag} />
+  )
 
-  const renderSearchHashtag = (item: THashTag) => {
-    return <HashtagItem {...item} onPress={onPressHashtag} />
-  }
+  const renderSearchHashtag = (item: THashTag) => (
+    <HashtagItem {...item} onPress={onPressHashtag} />
+  )
 
-  const renderInputChildren = () => {
-    return (
-      <FlexWrapper justify={'space-between'} mBottom={'10px'}>
-        <Input.Search
-          width={'80%'}
-          height={'56px'}
-          value={search}
-          onChange={setSearch}
-          label={t('tag_search')}
-          rightIcon={currentSearchIcon}
-          onPressRightIcon={onClearInput}
-          rightIconProps={{
-            size: 20,
-          }}
-        />
+  const renderInputChildren = () => (
+    <FlexWrapper justify={'space-between'} mBottom={'10px'}>
+      <Input.Search
+        width={'80%'}
+        height={'56px'}
+        value={search}
+        onChange={setSearch}
+        label={t('tag_search')}
+        rightIcon={currentSearchIcon}
+        onPressRightIcon={onClearInput}
+        rightIconProps={{
+          size: 20,
+        }}
+      />
 
-        <FilterContainer onPress={_onGoBack}>
-          <Icon name={'ListCheck'} fill={EColors.white} />
-        </FilterContainer>
-      </FlexWrapper>
-    )
-  }
+      <FilterContainer onPress={_onGoBack}>
+        <Icon name={'ListCheck'} fill={EColors.white} />
+      </FilterContainer>
+    </FlexWrapper>
+  )
 
   return (
     <>

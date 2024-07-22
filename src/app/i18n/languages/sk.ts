@@ -105,6 +105,7 @@ export default {
     wrong_code: 'nesprávny kód ',
     incorrect_code: 'Zadaný kód je nesprávny ',
     photo_size: 'veľkosť fotografie je príliš veľká ',
+    photo_size_index: 'veľkosť {{index}} fotografie je príliš veľká',
     login_used: 'Táto prezývka sa už používa ',
   },
 
@@ -127,6 +128,7 @@ export default {
     min: '',
     max: '',
     choose_grade: 'Trieda',
+    coordinates: 'Aktualizujte svoju polohu',
   },
 
   toasts: {
@@ -145,6 +147,7 @@ export default {
     publication_responses: 'Úspešne ste odpovedali na príspevok',
   },
   empty: {
+    profile_hashtag: 'Vo vašom profile nie sú žiadne značky',
     chat_list: 'Nemáte žiadne aktívne chaty',
     feedback: 'Nie sú žiadne recenzie',
     google_place: 'Začnite písať a vyhľadajte mesto',
@@ -200,7 +203,7 @@ export default {
   current_count: 'Aktuálne({{count}})',
   customer_projects: 'Projekty',
   customer_description: 'Popis',
-  customer_reviews: 'Recenzie.',
+  customer_reviews: 'Recenzie',
   hour: 'rok.',
   hour_count: {
     one: 'hodina',
@@ -362,6 +365,7 @@ export default {
   contact_specialist: 'Kontaktujte odborníka',
   send_message: 'Odoslať správu',
   tag_search: 'Vyhľadávanie podľa značiek',
+  nickname_search: 'Vyhľadávanie podľa prezývky',
   mark_completed: 'Označiť ako hotové',
   waiting_customer: 'Čaká sa na dokončenie zo strany klienta',
   leave_review: 'Zanechať recenziu',
@@ -624,7 +628,7 @@ export default {
     neighbors: 'Susedia',
     city: 'V meste',
     city_region: 'Mesto a región',
-    nearest_distant: 'Найближчий віддалений',
+    nearest_distant: 'Najbližšie vzdialené',
     whole_world: 'Celý svet',
     kyiv: 'Kyjev, Ukrajina',
     london: 'Londýn, Spojené kráľovstvo',
@@ -644,4 +648,12 @@ export default {
   show_more: 'Zobraziť viac ({{value}})',
   report_project: 'Sťažovať sa na projekt',
   agree_logout: 'Určite chcete odísť?',
+
+  home_empty_hashtags: 'Žiadne žiadosti zodpovedajúce vašim zručnostiam',
+  add_skills: 'Pridať zručnosti',
+  show_all_request: 'Zobraziť všetky projekty',
+  waiting_approve_response: 'Čakanie na prijatie ponuky',
+  you_end_work_project: 'Ste dokončili projekt?',
+  modal_go_back:
+    'Určite sa chcete odhlásiť? Všetky údaje na stránke budú vymazané',
 }

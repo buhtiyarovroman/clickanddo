@@ -4,6 +4,7 @@ import { feedbackJobValidation } from './validation'
 export type TFeedbackJobBottomSheetProps = {
   _id: string
   onClose?: () => void
+  onRefresh?: () => void
 }
 
 export type TForm = TSchema<typeof feedbackJobValidation>

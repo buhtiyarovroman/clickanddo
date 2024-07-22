@@ -20,48 +20,46 @@ type TContext = {
   children: ReactNode
 }
 
-export const Contexts = ({ children }: TContext) => {
-  return (
-    <>
-      {/*  Redux */}
-      <Provider store={store}>
-        {/* Persist store */}
-        <PersistGate loading={null} persistor={persistor}>
-          {/*  SaveAreaView */}
-          <SafeAreaWrapper>
-            {/* GestureHandler */}
-            <GestureHandlerRootView style={styles.gestureHandlerContainer}>
-              {/* BottomSheetModal */}
-              <ThemeWrapper>
-                {/* Loader */}
-                <LoaderWrapper>
-                  {/* OneSignal Context */}
-                  <PushNotificationWrapper>
-                    {/* BottomSheetModalProvider */}
-                    <BottomSheetModalProvider>
-                      <InternetConnectionContextProvider>
-                        {/* Language */}
-                        <KeyboardProvider>
-                          <LanguageProvider>
-                            <ToastWrapper>
-                              <SocketIOContextProvider>
-                                {children}
-                              </SocketIOContextProvider>
-                            </ToastWrapper>
-                          </LanguageProvider>
-                        </KeyboardProvider>
-                      </InternetConnectionContextProvider>
-                    </BottomSheetModalProvider>
-                  </PushNotificationWrapper>
-                </LoaderWrapper>
-              </ThemeWrapper>
-            </GestureHandlerRootView>
-          </SafeAreaWrapper>
-        </PersistGate>
-      </Provider>
-    </>
-  )
-}
+export const Contexts = ({ children }: TContext) => (
+  <>
+    {/*  Redux */}
+    <Provider store={store}>
+      {/* Persist store */}
+      <PersistGate loading={null} persistor={persistor}>
+        {/*  SaveAreaView */}
+        <SafeAreaWrapper>
+          {/* GestureHandler */}
+          <GestureHandlerRootView style={styles.gestureHandlerContainer}>
+            {/* BottomSheetModal */}
+            <ThemeWrapper>
+              {/* Loader */}
+              <LoaderWrapper>
+                {/* OneSignal Context */}
+                <PushNotificationWrapper>
+                  {/* BottomSheetModalProvider */}
+                  <BottomSheetModalProvider>
+                    <InternetConnectionContextProvider>
+                      {/* Language */}
+                      <KeyboardProvider>
+                        <LanguageProvider>
+                          <ToastWrapper>
+                            <SocketIOContextProvider>
+                              {children}
+                            </SocketIOContextProvider>
+                          </ToastWrapper>
+                        </LanguageProvider>
+                      </KeyboardProvider>
+                    </InternetConnectionContextProvider>
+                  </BottomSheetModalProvider>
+                </PushNotificationWrapper>
+              </LoaderWrapper>
+            </ThemeWrapper>
+          </GestureHandlerRootView>
+        </SafeAreaWrapper>
+      </PersistGate>
+    </Provider>
+  </>
+)
 
 const styles = StyleSheet.create({
   gestureHandlerContainer: {

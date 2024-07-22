@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react'
+import React, { forwardRef, useEffect, useImperativeHandle } from 'react'
 import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { Controller, useForm } from 'react-hook-form'
@@ -15,7 +9,6 @@ import Toast from 'react-native-toast-message'
 
 import { useTypedSelector } from '@/app/store'
 import { getSkillBoxSelector } from '@/entities/Skillbox'
-import { TCategory } from '@/entities/Category/models'
 import { Input } from '@/shared/ui/input'
 import {
   FlexWrapper,
@@ -24,7 +17,6 @@ import {
   MRegular,
   SRegular,
 } from '@/shared/ui/Styled/Styled'
-import { TBottomSheetBaseRef } from '@/shared/ui/bottomSheet/Base'
 import { Icon } from '@/shared/ui/Icon'
 import { EColors } from '@/shared/ui/Styled'
 import { createSkillBoxFirstValidation } from './validation'
@@ -48,9 +40,7 @@ export const FirstForm = forwardRef<
   const { t } = useTranslation()
 
   const { createSkillBox } = useTypedSelector(getSkillBoxSelector)
-  const [selectedCategory, setSelectedCategory] = useState<TCategory | null>(
-    null,
-  )
+
   const {
     control,
     getValues,
@@ -71,8 +61,6 @@ export const FirstForm = forwardRef<
       [ESkillBoxCreateFirstFormFields.hideLikes]: createSkillBox.hideLikes,
     },
   })
-  const categoriesBottomSheetRef = useRef<TBottomSheetBaseRef | null>(null)
-  const interestBottomSheetRef = useRef<TBottomSheetBaseRef | null>(null)
 
   useImperativeHandle(ref, () => ({
     getForm: async () => {

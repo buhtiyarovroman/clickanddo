@@ -44,9 +44,10 @@ export const onGetData = (t: TFunction<any>): TDefaultListData[] => [
   },
   {
     title: t('location_list.whole_world'),
-    isMyLocation: true,
+    // isMyLocation: true,
     icon: 'OutPlanet',
     needTranslate: true,
+    // radius: 6371000,
   },
   {
     title: t('location_list.kyiv'),

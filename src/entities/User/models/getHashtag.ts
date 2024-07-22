@@ -1,10 +1,11 @@
-import { TRequest, TResponseDocs } from '@/app/store/types'
-import { THashTag, THashTagStatus } from './common'
+import { TRequest } from '@/app/store/types'
+import { THashTagStatus, TSearchHashTag } from './common'
 
 export type TGetHashtagRequest = TRequest<TPayload, TResponse>
 
 type TPayload = Partial<{
   interest: string[]
+  category: string[]
   title: string
   page: number
   skip: number
@@ -12,6 +13,18 @@ type TPayload = Partial<{
   order: number
   sortBy: string
   status: THashTagStatus
+  lang: string
 }>
 
-type TResponse = TResponseDocs<THashTag[]>
+type TResponse = {
+  took: number
+  timed_out: boolean
+  hits: {
+    total: {
+      value: number
+      relation: string
+    }
+    max_score: number
+    hits: TSearchHashTag[]
+  }
+}

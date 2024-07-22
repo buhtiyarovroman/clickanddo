@@ -10,6 +10,11 @@ export type TProjectCardButtonsReviewButtonsProps = {
 } & Partial<
   Pick<
     TProject,
-    'specialistReview' | 'specialist' | 'owner' | 'customerReview' | '_id'
+    | 'specialistReview'
+    | 'specialist'
+    | 'owner'
+    | 'customerReview'
+    | '_id'
+    | 'origin'
   >
 >

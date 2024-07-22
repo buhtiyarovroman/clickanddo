@@ -5,6 +5,7 @@ import { TImageStandard } from './types'
 import { ImageRequireSource, ImageSourcePropType } from 'react-native'
 import { Png } from '@assets/Png'
 import { images } from '@/shared/config'
+import { MRegular } from '../../Styled/Styled'
 
 const DEFAULT_IMAGE = Png.DefaultImage
 
@@ -25,7 +26,7 @@ const StandardComponent = ({
     ? { uri: props.type ? images[props.type] + props.source : props.source }
     : { uri: DEFAULT_IMAGE + '' }
 
-  const source = error ? DEFAULT_IMAGE : validSourse
+  const source = validSourse
   return (
     <StyledImage
       {...props}

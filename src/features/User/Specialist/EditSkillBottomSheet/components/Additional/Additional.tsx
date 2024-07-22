@@ -2,13 +2,11 @@ import { EColors } from '@/shared/ui/Styled'
 import { SRegular } from '@/shared/ui/Styled/Styled'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SkillItem, SkillsContainer, SkillText } from './styled'
-import { TouchableOpacity } from 'react-native'
-import { Icon } from '@/shared/ui/Icon'
+import { SkillItem, SkillsContainer } from './styled'
 import { Search } from '../Search'
 import { TAdditionalSkills } from './types'
-import { getTranslate } from '@/shared/utils'
 import { THashTag } from '@/entities/User/models'
+import { HashtagItem } from '@/shared/ui/HashtagItem'
 
 export const Additional = ({
   skills = [],
@@ -37,19 +35,15 @@ export const Additional = ({
     setSkills(skills.filter(item => item._id !== id))
   }
 
-  const renderItem = (item: THashTag) => {
-    return (
-      <SkillItem key={item._id}>
-        <SkillText mRight={'5px'} color={EColors.white}>
-          {getTranslate(item.title)}
-        </SkillText>
-
-        <TouchableOpacity onPress={() => onDeleteSkill(item._id)}>
-          <Icon name={'Close'} size={14} stroke={EColors.white} />
-        </TouchableOpacity>
-      </SkillItem>
-    )
-  }
+  const renderItem = (item: THashTag) => (
+    <HashtagItem
+      key={item._id}
+      {...item}
+      isActive
+      showClose
+      onPressClose={() => onDeleteSkill(item._id)}
+    />
+  )
 
   return (
     <>
@@ -68,7 +62,7 @@ export const Additional = ({
       </SkillsContainer>
 
       <SRegular mBottom={'20px'} color={EColors.grey_600}>
-        {t('up_to_skills', { value: 15 })}
+        {t('up_to_skills', { value: 15 })} ({skills.length}\15)
       </SRegular>
 
       {show && !isMax && (

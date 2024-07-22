@@ -8,25 +8,13 @@ export const Container = styled(View)`
 `
 
 export const styles = StyleSheet.create({
-  containerStyle: {
-    // backgroundColor: 'red',
-    // height: 60,
-    // flex: 1,
-    // opacity: 1,
-  },
+  containerStyle: {},
   style: {
-    // flex: 1,
     borderColor: EColors.primary,
-    // height: 20,
     borderWidth: 1,
     backgroundColor: EColors.white,
-    // opacity: 0.4,
-    // height: 20,
-    // padding: 100,
   },
-  listItemContainerStyle: {
-    // height: 40,
-  },
+  listItemContainerStyle: {},
   listItemLabelStyle: {
     fontSize: 14,
     color: EColors.black,
@@ -35,26 +23,14 @@ export const styles = StyleSheet.create({
   selectedItemLabelStyle: {
     fontWeight: 'bold',
   },
-  customItemContainerStyle: {
-    // backgroundColor: 'blue',
-  },
-  customItemLabelStyle: {
-    // fontStyle: 'italic',
-  },
+  customItemContainerStyle: {},
+  customItemLabelStyle: {},
   dropDownContainerStyle: {
     borderColor: EColors.primary,
     borderWidth: 1,
     backgroundColor: EColors.white,
   },
   // Arrow
-  arrowIconStyle: {
-    // color: 'red',
-    // backgroundColor: 'red',
-  },
-  arrowIconContainerStyle: {
-    // color: 'red',
-    // backgroundColor: 'red',
-    // height: 100,
-    // color: 'red',
-  },
+  arrowIconStyle: {},
+  arrowIconContainerStyle: {},
 })

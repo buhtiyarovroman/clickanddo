@@ -27,6 +27,8 @@ export const useGetChats = ({ project }: TUseGetChatsProps) => {
 
         const isProject = !!project
 
+        // console.log('getProjectChats=>', project, isProject)
+
         const { data } = await ChatEntities.ChatService.getChat({
           skip,
           limit: 10,

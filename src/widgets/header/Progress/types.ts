@@ -8,4 +8,5 @@ export type TProgressHeaderProps = {
   isClose?: boolean
   onPressClose?: () => void
   withGoBack?: boolean
+  needBackHandler?: boolean
 }

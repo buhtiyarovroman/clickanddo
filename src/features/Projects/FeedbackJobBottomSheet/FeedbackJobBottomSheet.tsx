@@ -23,10 +23,10 @@ import { TBottomSheetBaseRef } from '@/shared/ui/bottomSheet/Base'
 export const FeedbackJobBottomSheet = forwardRef<
   TBottomSheetBaseRef,
   TFeedbackJobBottomSheetProps
->(({ onClose = () => {}, _id }, ref) => {
+>(({ onClose = () => {}, onRefresh = () => {}, _id }, ref) => {
   const { t } = useTranslation()
-  const { setLoading } = useContext(LoaderContext)
-  const { user } = useTypedSelector(getUserSelector)
+  const { setLoading, loader } = useContext(LoaderContext)
+  const { user, setting } = useTypedSelector(getUserSelector)
 
   const {
     control,
@@ -37,7 +37,7 @@ export const FeedbackJobBottomSheet = forwardRef<
     defaultValues: {
       [TFeedbackJobField.title]: '',
       [TFeedbackJobField.description]: '',
-      [TFeedbackJobField.currency]: 'EUR',
+      [TFeedbackJobField.currency]: setting.currency,
       [TFeedbackJobField.price]: 0,
     },
   })
@@ -64,6 +64,8 @@ export const FeedbackJobBottomSheet = forwardRef<
         type: EToastType.success,
         text2: t('toasts.response_sended'),
       })
+
+      onRefresh()
 
       onClose()
     } catch (err) {
@@ -132,7 +134,11 @@ export const FeedbackJobBottomSheet = forwardRef<
             )}
           />
 
-          <Button.Standard text={t('send')} onPress={handleSubmit(onPress)} />
+          <Button.Standard
+            text={t('send')}
+            disabled={loader}
+            onPress={handleSubmit(onPress)}
+          />
         </Background.Scroll>
       </Container>
     </BottomSheet.Base>

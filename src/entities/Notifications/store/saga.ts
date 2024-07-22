@@ -1,5 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { call, debounce, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, debounce, put } from 'redux-saga/effects'
 
 import { ActionsTypes } from './actionTypes'
 import { captureException } from '@sentry/react-native'

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { ScrollView, View } from 'react-native'
+import { Platform, ScrollView, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { RouteProp, useRoute } from '@react-navigation/native'
 
@@ -15,20 +15,19 @@ import {
   getPublicationSelector,
   publicationActions,
 } from '@/entities/Publication'
-import { TAB_HEIGHT } from '@/widgets/BottomTab/useAnimatedTab'
 import { TPublicationStack } from '@/app/navigation/stacks/Publication'
 import { useDispatch } from 'react-redux'
 import { LoaderContext } from '@/app/contexts/Loader'
 import { ProjectSlider } from '@/shared/ui/ProjectSlider'
 import { EColors } from '@/shared/ui/Styled'
-import { useNavigation } from '@/features/hooks'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export const Publication = () => {
   const { t } = useTranslation()
   const scrollRef = useRef<KeyboardAwareScrollView>(null)
   const dispatch = useDispatch()
-  const { push } = useNavigation()
+  const { bottom } = useSafeAreaInsets()
   const { setLoading } = useContext(LoaderContext)
   const { user, setting } = useTypedSelector(getUserSelector)
   const { singlePublication: publication } = useTypedSelector(
@@ -87,11 +86,14 @@ export const Publication = () => {
       <Header.CenterTitle disableShadow goBack title={publication?.heading} />
       <KeyboardAwareScrollView
         ref={scrollRef}
+        enableOnAndroid={true}
+        enableAutomaticScroll={true}
         extraHeight={150}
+        extraScrollHeight={150}
         style={{ backgroundColor: EColors.white }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: TAB_HEIGHT + 16,
+          paddingBottom: bottom + (Platform.OS === 'android' ? 16 : 0),
         }}>
         {publication && (
           <>

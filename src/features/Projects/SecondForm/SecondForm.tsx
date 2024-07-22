@@ -13,7 +13,6 @@ import { Hashtags } from '../Hashtags'
 import { View } from 'react-native'
 import { useTypedSelector } from '@/app/store'
 import { getProjectsSelector } from '@/entities/Projects/store'
-import { PhotoMenu } from '@/shared/ui/input/PhotoMenu'
 import { Photos } from '@/shared/ui/Photos'
 
 export const SecondForm = forwardRef<

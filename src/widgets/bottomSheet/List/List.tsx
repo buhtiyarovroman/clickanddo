@@ -16,7 +16,6 @@ import { TBottomSheetBaseRef } from '@/shared/ui/bottomSheet/Base'
 import { Button } from '@/shared/ui/button'
 import { Container, styles } from './styles'
 import { TListProps } from './types'
-import { Type } from './ui'
 import { FilterItem } from '@/shared/ui/FilterItem'
 import { Location } from '../Location'
 import { TPressAddress } from '../Location/types'
@@ -42,9 +41,10 @@ export const List = forwardRef<TBottomSheetBaseRef, TListProps>(
     const [rangeMaxMin, setRangeMaxMin] = useState<number[]>([])
 
     useEffect(() => {
-      if (!rangeMaxMin.length || rangeMaxMin[1] === 100) {
-        setRange([filterData?.min || 0, filterData?.max || 100])
-        setRangeMaxMin([filterData?.min || 0, filterData?.max || 100])
+      setRangeMaxMin([filterData?.min || 0, filterData?.max || 100])
+
+      if (!range.length) {
+        setRange([0, filterData?.max || 100])
       }
     }, [filterData])
 
@@ -69,6 +69,7 @@ export const List = forwardRef<TBottomSheetBaseRef, TListProps>(
       )
       setRangeMaxMin([])
       onCancelPress()
+      setLocation({})
     }
 
     const onApplyPress = () => {
@@ -117,7 +118,7 @@ export const List = forwardRef<TBottomSheetBaseRef, TListProps>(
 
             <FilterItem
               title={t('location')}
-              value={location.address}
+              value={location.address || listFilters.address}
               onPress={onOpenLocation}
             />
 

@@ -12,5 +12,6 @@ export type TProjectCardButtonsProps = {
     | 'specialistReview'
     | 'owner'
     | 'name'
+    | 'origin'
   >
 >

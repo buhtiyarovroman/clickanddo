@@ -1,6 +1,7 @@
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components'
 import { EColors } from '@/shared/ui/Styled'
+import Animated from 'react-native-reanimated'
 
 export const Tags = styled(View)`
   flex: 1;
@@ -9,6 +10,11 @@ export const Tags = styled(View)`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
+`
+
+export const FoundedTags = styled(View)`
+  max-height: 350px;
+  width: 100%;
 `
 
 export const Tag = styled(TouchableOpacity).attrs({
@@ -21,7 +27,7 @@ export const Tag = styled(TouchableOpacity).attrs({
     isSelected ? EColors.primary : EColors.grey_200};
 `
 
-export const ListContainer = styled(View)`
+export const ListContainer = styled(Animated.View)`
   padding: 0px 20px;
 `
 
@@ -29,7 +35,6 @@ export const styles = StyleSheet.create({
   main: {
     paddingTop: 100,
     backgroundColor: EColors.grey_300,
-    // backgroundColor: 'red',
   },
   projectsList: {
     marginTop: 15,
@@ -37,4 +42,5 @@ export const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  list: { flexWrap: 'wrap', flexDirection: 'row' },
 })

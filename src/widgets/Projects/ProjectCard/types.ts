@@ -13,6 +13,7 @@ export type TProjectCartProps = {
   showDates?: boolean
   showStatus?: boolean
   hideCreatedAt?: boolean
+  needChatDetect?: boolean
 } & TMargin
 
 export type TProjectCartType = EProjectCardType

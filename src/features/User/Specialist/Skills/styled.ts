@@ -8,5 +8,5 @@ export const SkillContainer = styled(TouchableOpacity).attrs({
   background-color: ${({ color }) => color || EColors.primary_L2};
   padding: 6px 8px;
   border-radius: 24px;
-  margin: 0 12px 12px 0;
+  margin: 0 5px 5px 0;
 `

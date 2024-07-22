@@ -4,7 +4,7 @@ import { TCreatePublication, TInitialPublicationState } from './types'
 import { Reducers } from '@/app/store/tools'
 import { EStoreReducer } from '@/app/store/types'
 
-const defaultCreatePublication: TCreatePublication = {
+export const defaultCreatePublication: TCreatePublication = {
   id: '',
   images: [],
   location: '',

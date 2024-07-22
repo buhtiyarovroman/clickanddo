@@ -34,23 +34,30 @@ export const CreatePublicationForm = forwardRef<
 
   const onOpen = () => bottomSheetRef.current?.open()
 
-  const { control, trigger, getValues, handleSubmit } =
-    useForm<T.TCreatePublicationForm>({
-      resolver: zodResolver(createPublicationSchema(t)),
-      defaultValues: {
-        coordinates: createPublication.coordinates,
-        location: createPublication.location,
-        title: createPublication.title,
-        description: createPublication.description,
-        price: createPublication.price,
-        hideLikes: createPublication.hideLikes,
-        currency: createPublication.currency as TCurrencyValue,
-        images: createPublication.images.length
-          ? createPublication.images.map(el => ({ path: el, id: uuidv4() }))
-          : [],
-        hashtag: createPublication.hashtag,
-      },
-    })
+  const {
+    control,
+    trigger,
+    getValues,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<T.TCreatePublicationForm>({
+    resolver: zodResolver(createPublicationSchema(t)),
+    defaultValues: {
+      coordinates: createPublication.coordinates,
+      location: createPublication.location,
+      title: createPublication.title,
+      description: createPublication.description,
+      price: +createPublication.price,
+      hideLikes: createPublication.hideLikes,
+      currency: createPublication.currency as TCurrencyValue,
+      images: createPublication.images.length
+        ? createPublication.images.map(el => ({ path: el, id: uuidv4() }))
+        : [],
+      hashtag: createPublication.hashtag,
+    },
+  })
+
+  console.log('error =>', errors)
 
   useImperativeHandle(
     ref,
@@ -173,7 +180,9 @@ export const CreatePublicationForm = forwardRef<
                   error={error?.message}
                   currency={value}
                   onChangeCurrency={onChange}
-                  onChangeInput={onChangeInput}
+                  onChangeInput={budget => {
+                    onChangeInput(+budget)
+                  }}
                   value={((priceValue as number) || 0)?.toString()}
                   label={t('new_publication.price')}
                   fontSize={16}
@@ -195,7 +204,6 @@ export const CreatePublicationForm = forwardRef<
                 value={value}
                 label={t('select_location')}
                 leftIcon={'LocationPoint'}
-                leftIconProps={{ size: 20 }}
                 error={error?.message}
                 mBottom={'20px'}
                 onPress={onOpen}

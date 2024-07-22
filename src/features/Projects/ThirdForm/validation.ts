@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { t } from 'i18next'
 import { EThirdRomFiled } from './types'
+import { Schemas } from '@/shared/lib/validation'
 
 export const createProjectThirdValidation = z.object({
   [EThirdRomFiled.name]: z
@@ -13,17 +14,5 @@ export const createProjectThirdValidation = z.object({
     .min(1, { message: t('validation_error.no_empty') })
     .optional()
     .or(z.literal('')),
-  [EThirdRomFiled.hashtag]: z
-    .array(
-      z.object({
-        _id: z.string(),
-        title: z.array(
-          z.object({
-            lang: z.string(),
-            value: z.string(),
-          }),
-        ),
-      }),
-    )
-    .optional(),
+  [EThirdRomFiled.hashtag]: Schemas.hashtags.optional(),
 })

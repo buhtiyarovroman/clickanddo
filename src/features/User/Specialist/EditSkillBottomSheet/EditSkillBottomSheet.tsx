@@ -62,6 +62,8 @@ export const EditSkillBottomSheet = forwardRef<
         <Background.Scroll
           bounces={false}
           nestedScrollEnabled
+          extraHeight={70}
+          extraScrollHeight={70}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: bottom + 16 }}>
           <H3SemiBold mBottom={'20px'}>{t('specialist_skills')}</H3SemiBold>

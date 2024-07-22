@@ -1,10 +1,9 @@
 import { Background } from '@/shared/ui/background'
 import { Header } from '@/widgets/header'
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { UserWidget } from '@/widgets/User'
 import { useTypedSelector } from '@/app/store'
 import { getUserSelector, userActions } from '@/entities/User'
-import { LoaderContext } from '@/app/contexts/Loader'
 import { useIsFocused } from '@react-navigation/native'
 import { styles } from './styled'
 import { useDispatch } from 'react-redux'
@@ -12,7 +11,6 @@ import { useDispatch } from 'react-redux'
 export const Main = () => {
   const { user, loading } = useTypedSelector(getUserSelector)
   const isFocused = useIsFocused()
-  const { setLoading } = useContext(LoaderContext)
   const isCustomer = user?.role === 'customer'
   const dispatch = useDispatch()
 
@@ -35,9 +33,9 @@ export const Main = () => {
     <>
       <Background.SafeArea>
         <Header.Profile showMyName />
-        {isCustomer ? (
-          <UserWidget.Customer user={user} isEdit />
-        ) : (
+        {!!isCustomer && <UserWidget.Customer user={user} isEdit />}
+
+        {!isCustomer && (
           <Background.Scroll
             pHorizontal={20}
             contentContainerStyle={styles.main}>

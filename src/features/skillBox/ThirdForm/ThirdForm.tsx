@@ -14,7 +14,6 @@ import {
   TSkillBoxThirdFormProps,
 } from './types'
 
-import { Hashtags } from '@/features/Projects/Hashtags'
 import { useTypedSelector } from '@/app/store'
 import { getSkillBoxSelector } from '@/entities/Skillbox'
 

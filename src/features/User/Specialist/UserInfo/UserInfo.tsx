@@ -21,7 +21,6 @@ import { useCreateChat } from '@/features/Chat'
 import { useCheckFavorites } from '@/features/Favorites'
 
 export const UserInfo = ({
-  likes = 0,
   login = '',
   photo = '',
   subscribers = 0,
@@ -39,7 +38,7 @@ export const UserInfo = ({
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const { navigate } = useNavigation()
-  const { onCreateChat } = useCreateChat({})
+  const { onCreateChat, loader } = useCreateChat({})
 
   const { inFavorites, onAddFavorite, onDeleteFavorite } = useCheckFavorites({
     id: _id || '',
@@ -93,6 +92,10 @@ export const UserInfo = ({
     })
   }
 
+  const onPressEnd = () => {
+    console.log('presed')
+  }
+
   return (
     <>
       <FlexWrapper justify={'flex-start'} mBottom={'20px'}>
@@ -140,6 +143,7 @@ export const UserInfo = ({
         <>
           <FlexWrapper justify={'space-between'} mBottom={'16px'}>
             <Button.Standard
+              disabled={loader}
               width={!isCustomer ? '60%' : '80%'}
               onPress={() => onCreateChat(_id)}
               text={t('message')}

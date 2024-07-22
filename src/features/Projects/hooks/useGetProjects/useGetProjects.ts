@@ -80,11 +80,9 @@ export const useGetProjects = ({
           relevantUntilLb: params.relevantUntilLb,
         })
 
-        setProjects(prev =>
-          nextSkip === 0
-            ? response.data.docs
-            : [...prev, ...response.data.docs],
-        )
+        const data = response.data.docs
+
+        setProjects(prev => (nextSkip === 0 ? data : [...prev, ...data]))
 
         setFilterData(response.data.filterData[0])
 

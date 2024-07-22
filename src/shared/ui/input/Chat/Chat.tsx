@@ -23,7 +23,7 @@ import { FlexWrapper, SRegular } from '../../Styled/Styled'
 import { Image } from '../../image'
 import { useTranslation } from 'react-i18next'
 
-const imageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
+// const imageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
 
 export const Chat = ({ flatListRef }: TInputProps) => {
   const dispatch = useDispatch()

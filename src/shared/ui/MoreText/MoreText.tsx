@@ -16,7 +16,7 @@ export const MoreText = ({
 }: TMoreTextProps) => {
   const { t } = useTranslation()
   const CurrentMoreText = moreText || t('more')
-  const CurrentLessText = lessText || t('more')
+  const CurrentLessText = lessText || t('hide')
 
   const CurrentTextComponent = useMemo(
     () => Styled[TextComponent],

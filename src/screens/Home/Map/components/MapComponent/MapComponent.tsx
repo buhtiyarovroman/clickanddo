@@ -19,13 +19,6 @@ import NativeMap from 'react-native-maps'
 
 const Provider = Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
 
-const initialRegion = {
-  latitude: 52.510605,
-  longitude: 13.402759,
-  latitudeDelta: 0.1022,
-  longitudeDelta: 0.1021,
-}
-
 export const MapComponent = forwardRef<NativeMap, TMapComponentProps>(
   (
     {
@@ -53,6 +46,15 @@ export const MapComponent = forwardRef<NativeMap, TMapComponentProps>(
       }, 300),
       [],
     )
+
+    const initialRegion = {
+      latitude: myPosition?.latitude || 52.510605,
+      longitude: myPosition?.longitude || 13.402759,
+      latitudeDelta: 0.1022,
+      longitudeDelta: 0.1021,
+    }
+
+    console.log('initialRegion =>', initialRegion, myPosition?.latitude)
 
     const renderMarkers = useCallback(
       (item: TUser | TProject, index: number) => {

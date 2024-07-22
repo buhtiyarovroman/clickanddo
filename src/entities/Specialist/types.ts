@@ -11,6 +11,7 @@ export type TPayload = {
   location?: number[]
   login?: string
   maxDistance?: number
+  category?: string[]
 }
 
 export type TResponse = TResponseDocs<TUser[]>

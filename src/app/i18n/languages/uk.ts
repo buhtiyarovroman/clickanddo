@@ -104,7 +104,8 @@ export default {
     error: 'Помилка',
     wrong_code: 'неправильний код ',
     incorrect_code: 'Введений код невірний ',
-    photo_size: 'розмір фото завеликий ',
+    photo_size: 'розмір фото завеликий',
+    photo_size_index: 'розмір {{index}} фото завеликий',
     login_used: 'Цей нік вже використовується',
   },
 
@@ -127,6 +128,7 @@ export default {
     min: '',
     max: '',
     choose_grade: 'Клас',
+    coordinates: 'Обновіть локацію',
   },
 
   toasts: {
@@ -145,6 +147,7 @@ export default {
     publication_responses: 'Ви успішно відгукнулися на публікацію',
   },
   empty: {
+    profile_hashtag: 'У вашому профілі немає тегів',
     chat_list: 'У вас немає активних чатів',
     feedback: 'Відгуків немає',
     google_place: 'Почніть вводити, щоб знайти місто',
@@ -266,7 +269,7 @@ export default {
   educational_institution: 'Навчальний заклад',
   name_institution: 'Назва закладу',
   study_period: 'Період навчання',
-  specialization: 'Спеціалія',
+  specialization: 'Спеціалізація',
   enter_specialization: 'Введіть спеціалізцію',
   study_area: 'Напрям навчання',
   select_area: 'Вибрати область',
@@ -363,6 +366,7 @@ export default {
   contact_specialist: "Зв'язок з фахівцем",
   send_message: 'Надіслати повідомлення',
   tag_search: 'Пошук за тегами',
+  nickname_search: 'Пошук за ніком',
   mark_completed: 'Позначити як виконане',
   waiting_customer: 'Очікує на завершення клієнтом',
   leave_review: 'Залишити відгук',
@@ -646,4 +650,12 @@ export default {
   show_more: 'Показати ще ({{value}})',
   report_project: 'Поскаржитися на проект',
   agree_logout: 'Ви впевнені що хочете вийти?',
+
+  home_empty_hashtags: 'Немає заявок, що відповідають вашим навичкам',
+  add_skills: 'Додати навички',
+  show_all_request: 'Показати всі заявки',
+  waiting_approve_response: 'Очікування прийняття пропозиції',
+  you_end_work_project: 'Ви закінчили роботу за проєктом?',
+  modal_go_back:
+    'Ви впевнені що хотите вийти? Всі дані на сторінці на будуть видалені',
 }

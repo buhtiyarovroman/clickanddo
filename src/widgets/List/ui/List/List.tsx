@@ -1,7 +1,7 @@
 import { EScreens } from '@/app/navigation'
 import { publicationActions, PublicationEntities } from '@/entities/Publication'
 import { EPublicationType, TPublication } from '@/entities/Publication/models'
-import { UserEntities } from '@/entities/User'
+import { getUserSelector, UserEntities } from '@/entities/User'
 import { useNavigation } from '@/features/hooks'
 import { useGetPublicationSkip } from '@/features/Publication'
 import { Loader } from '@/shared/ui/loader'
@@ -10,13 +10,15 @@ import React, { useCallback, useEffect } from 'react'
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { TListSpecialistProps } from './types'
-import { ButtonContainer, Container } from './styled'
+import { ButtonContainer, Container, styles } from './styled'
 import { TAB_HEIGHT } from '@/widgets/BottomTab/useAnimatedTab'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Button } from '@/shared/ui/button'
 import { EColors } from '@/shared/ui/Styled'
 import { useIsFocused } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
+import { useTypedSelector } from '@/app/store'
+import { defaultCreatePublication } from '@/entities/Publication/store/reducer'
 
 export const List = ({ type }: TListSpecialistProps) => {
   const dispatch = useDispatch()
@@ -24,6 +26,7 @@ export const List = ({ type }: TListSpecialistProps) => {
   const { navigate } = useNavigation()
   const { bottom } = useSafeAreaInsets()
   const isFocused = useIsFocused()
+  const { setting } = useTypedSelector(getUserSelector)
   const {
     publication,
     canGetMoreItems,
@@ -114,6 +117,14 @@ export const List = ({ type }: TListSpecialistProps) => {
 
   const onGoCreate = () => {
     if (type === EPublicationType.publication) {
+      dispatch(
+        publicationActions.setState({
+          createPublication: {
+            ...defaultCreatePublication,
+            currency: setting.currency,
+          },
+        }),
+      )
       navigate(EScreens.ListCreatePublication)
     }
     if (type === EPublicationType.skillbox) {
@@ -142,7 +153,7 @@ export const List = ({ type }: TListSpecialistProps) => {
         numColumns={2}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: TAB_HEIGHT * 3 + bottom }}
-        columnWrapperStyle={{ justifyContent: 'space-between' }}
+        columnWrapperStyle={styles.contentContainer}
       />
 
       <ButtonContainer bottomInst={bottom}>

@@ -14,6 +14,7 @@ import { TListStack } from './types'
 import { SpecialOfferStack } from '../SpecialOffer'
 import { JobStack } from '../Job'
 import { PublicationStack } from '../Publication'
+import { HomeScreens } from '@/screens/Home'
 
 const Stack = createStackNavigator<TListStack>()
 
@@ -54,5 +55,10 @@ export const ListStack = () => (
     <Stack.Screen component={JobStack} name={EScreens.ListJobs} />
 
     <Stack.Screen name={EScreens.ListMap} component={ListScreens.Map} />
+
+    <Stack.Screen
+      component={HomeScreens.Notifications}
+      name={EScreens.HomeNotifications}
+    />
   </Stack.Navigator>
 )

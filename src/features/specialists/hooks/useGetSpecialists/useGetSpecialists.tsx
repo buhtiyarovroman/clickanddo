@@ -14,6 +14,7 @@ export const useGetSpecialists = ({
   location,
   maxDistance,
   login,
+  category,
 }: TUseGetSpecialistProps) => {
   const [specialists, setSpecialists] = useState<TUser[]>([])
   const [totalCount, setTotalCount] = useState(0)
@@ -33,6 +34,7 @@ export const useGetSpecialists = ({
           location,
           maxDistance,
           login,
+          category,
         })
 
         setSpecialists(
@@ -47,7 +49,15 @@ export const useGetSpecialists = ({
         setLoading(false)
       }
     },
-    [interest, hashtag, limit, location, maxDistance, specialists, login],
+    [
+      interest?.length,
+      hashtag,
+      limit,
+      location,
+      maxDistance,
+      specialists,
+      login,
+    ],
   )
 
   const getSpecialistsOnMap = useCallback(async () => {

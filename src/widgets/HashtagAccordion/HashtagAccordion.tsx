@@ -137,9 +137,13 @@ export const HashtagAccordion = ({
         </Animated.View>
       </FlexWrapper>
 
-      <S.MoreButton onPress={() => onOpen(!isOpen)}>
-        <Icon name={currentIcon} fill={EColors.transparent} />
-      </S.MoreButton>
+      {!!searchLength &&
+        (!!props.selectedHashtag.length ||
+          !!props.searchableHashtag.length) && (
+          <S.MoreButton onPress={() => onOpen(!isOpen)}>
+            <Icon name={currentIcon} fill={EColors.transparent} />
+          </S.MoreButton>
+        )}
     </>
   )
 }

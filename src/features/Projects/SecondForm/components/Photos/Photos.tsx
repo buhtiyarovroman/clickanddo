@@ -32,10 +32,10 @@ export const Photos = ({
 
     if (sizeMB > maxSizeMB) {
       Toast.show({ type: 'error', text1: t('errors.photo_size') })
-      return false
+      return undefined
     }
 
-    return true
+    return image
   }
 
   const onDelete = (id: string) => {

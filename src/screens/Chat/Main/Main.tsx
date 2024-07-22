@@ -28,6 +28,7 @@ export const Main = () => {
     getMore,
     setRefreshLoading,
     refreshLoading,
+    loading,
     loadMoreLoading,
   } = useGetChats({})
 
@@ -65,7 +66,7 @@ export const Main = () => {
   }
 
   const renderLoading = () => {
-    if (loadMoreLoading) {
+    if (!isEmpty && loadMoreLoading) {
       return <Loader.Standard />
     }
 
@@ -79,7 +80,11 @@ export const Main = () => {
 
   const renderEmpty = () => (
     <FlexWrapper height={'100%'}>
-      <MRegular color={EColors.grey_600}>{t('empty.chat_list')}</MRegular>
+      {!loading && (
+        <MRegular color={EColors.grey_600}>{t('empty.chat_list')}</MRegular>
+      )}
+
+      {loading && <Loader.Standard size={'large'} />}
     </FlexWrapper>
   )
 

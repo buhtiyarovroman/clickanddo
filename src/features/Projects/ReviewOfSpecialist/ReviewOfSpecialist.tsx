@@ -166,6 +166,7 @@ export const ReviewOfSpecialist = forwardRef<
               <>
                 <Input.TextArea
                   label={t('text_review')}
+                  placeholder={t('text_review')}
                   showTextLimit
                   error={errors.text?.message}
                   {...{ value, onChange }}

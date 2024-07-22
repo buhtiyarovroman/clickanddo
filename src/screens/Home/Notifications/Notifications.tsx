@@ -11,10 +11,11 @@ import { NotificationsService } from '@/entities/Notifications/services'
 import { useIsFocused } from '@react-navigation/native'
 import { FlexWrapper, MRegular } from '@/shared/ui/Styled/Styled'
 import { useTranslation } from 'react-i18next'
+import { Loader } from '@/shared/ui/loader'
 
 export const Notifications = () => {
   const { t } = useTranslation()
-  const { getFirstPage, notifications } = useGetNotifications({})
+  const { getFirstPage, notifications, loading } = useGetNotifications({})
   const isFocused = useIsFocused()
 
   useEffect(() => {
@@ -30,7 +31,9 @@ export const Notifications = () => {
 
   const renderEmpty = () => (
     <FlexWrapper height={'100%'}>
-      <MRegular>{t('notification_empty')}</MRegular>
+      {!loading && <MRegular>{t('notification_empty')}</MRegular>}
+
+      {loading && <Loader.Standard />}
     </FlexWrapper>
   )
   return (

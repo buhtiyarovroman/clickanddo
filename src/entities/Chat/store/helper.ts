@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import { TAllUnreadCount, TChat, TMessage } from '../models'
 import { TChatMessages, TLastLocalMessage, TLocalChatMessages } from './types'
 
@@ -128,6 +129,7 @@ export const onChatCounterChatList = (
   store: TChat[],
   lastMessage: TMessage,
   isProjectChat: boolean,
+  userId: string,
 ): TChat[] => {
   let foundedChat = store.find(item => item._id === lastMessage.chat)
 
@@ -139,10 +141,13 @@ export const onChatCounterChatList = (
     if (!isProjectChat) return store
   }
 
-  let tempChat = {
+  const isMy = lastMessage.from === userId
+
+  let tempChat: TChat = {
     ...foundedChat,
     lastMessage: lastMessage,
-    unreadCount: foundedChat.unreadCount + 1,
+    unreadCount: foundedChat.unreadCount + (isMy ? 0 : 1),
+    updatedAt: new Date().toString(),
   }
 
   let tempStore = store.map(item => {

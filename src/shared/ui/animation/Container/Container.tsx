@@ -29,17 +29,26 @@ export const Container = ({
 
   inputChildren,
   children,
+  onChangeOpen = () => {},
 }: TContainerProps) => {
   const opened = useSharedValue(0)
 
   const [isOpen, setOpen] = useState<boolean>(false)
 
   useEffect(() => {
+    onChangeOpen(isOpen)
+  }, [isOpen])
+
+  useEffect(() => {
     // if (autoOpen) {
+
     if (searchLength > 2 && !dataLength) {
       if (isOpen && !resultLength) {
+        console.log('withTiming(2)')
         opened.value = withTiming(2)
       } else {
+        console.log('withTiming(1) 1')
+
         opened.value = withTiming(2)
         setOpen(true)
       }
@@ -47,22 +56,32 @@ export const Container = ({
 
     if (!searchLength && !!dataLength) {
       if (!isOpen) {
+        console.log('withTiming(1) 2')
+
         opened.value = withTiming(1)
         setOpen(true)
       } else {
+        console.log('withTiming(1) 3')
+
         opened.value = withTiming(1)
       }
     }
 
     if (searchLength > 2 && !!dataLength) {
       if (dataLength === 3) {
+        console.log('withTiming(1) 4')
+
         opened.value = withTiming(1)
       } else {
+        console.log('withTiming(2) 2')
+
         opened.value = withTiming(2)
       }
     }
 
     if (!searchLength && !dataLength) {
+      console.log('withTiming(0)')
+
       opened.value = withTiming(0)
       setOpen(false)
     }
@@ -73,6 +92,8 @@ export const Container = ({
     // console.log('ANIM-onOpen-val', val)
     setOpen(val)
 
+    // if (searchLength > 2 && !dataLength) {
+    //   if (isOpen && !resultLength) {
     if (val) {
       if (dataLength < 3 && searchLength && resultLength) {
         // console.log('ANIM-isOpen-OPEN SECOND')
@@ -80,7 +101,10 @@ export const Container = ({
         return
       }
 
-      // console.log('ANIM-isOpen-OPEN FIRST')
+      if (searchLength) {
+        opened.value = withTiming(2)
+        return
+      }
       opened.value = withTiming(1)
       return
     }

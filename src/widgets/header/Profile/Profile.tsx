@@ -14,7 +14,7 @@ import { EColors } from '@/shared/ui/Styled'
 import { EScreens, EStacks } from '@/app/navigation'
 import { LoaderContext } from '@/app/contexts/Loader'
 import { useDispatch } from 'react-redux'
-import { CommonActions } from '@react-navigation/native'
+import { CommonActions, DrawerActions } from '@react-navigation/native'
 import firebaseService from '@/features/Auth/firebase.service'
 import axios from 'axios'
 import Toast from 'react-native-toast-message'
@@ -36,6 +36,7 @@ export const Profile = ({
 
   const _onGoBack = () => {
     navigation.goBack()
+    !!showMyName && navigation.dispatch(DrawerActions.openDrawer())
   }
 
   const onDeleteProfile = useCallback(async () => {

@@ -38,6 +38,10 @@ export const AddAccount = () => {
         dateOfBirth: user.dateOfBirth,
         gender: user.gender,
         role: EUserRole.specialist,
+        location: {
+          type: 'Point',
+          coordinates: user.location.coordinates,
+        },
       })
 
       dispatch(userActions.setUserSessions([...userSessions, response.data]))

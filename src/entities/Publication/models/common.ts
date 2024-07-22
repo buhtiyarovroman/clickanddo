@@ -35,6 +35,7 @@ export type TPublication = {
   projects?: number
   userProject?: string
   views?: number
+  comments?: number
 }
 
 export type TUserRatePublication = 'like' | 'dislike' | null

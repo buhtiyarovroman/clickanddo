@@ -16,8 +16,11 @@ import { useDispatch } from 'react-redux'
 import { chatActions } from '@/entities/Chat/store'
 import { useGetChats } from '@/features/Chat'
 import { useGetNotifications } from '@/features/Notifications'
+import { Platform } from 'react-native'
 
-const SocketIOContext = createContext<TWebSocketContext>({})
+const SocketIOContext = createContext<TWebSocketContext>({
+  ref: null,
+})
 
 export default SocketIOContext
 
@@ -57,18 +60,19 @@ export const SocketIOContextProvider = ({ children }: PropsWithChildren) => {
       socket.on('connect', () => {
         // console.warn('SOCKET: CONNECT')
       })
-      socket.on('connect_error', err => {
+      socket.on('connect_error', () => {
         // console.warn('SOCKET: CONNECT_ERROR ', err.message)
       })
-      socket.on('disconnect', logs => {
+      socket.on('disconnect', () => {
         // console.warn('SOCKET: DISCONNECT: ', logs)
       })
 
-      socket.on('newChat', (data: unknown) => {
+      socket.on('newChat', () => {
         getFirstPage()
         getNotificationCount()
       })
       socket.on('newMessage', (data: TMessage) => {
+        console.log(`newMessage => ${Platform.OS}`, data, userId)
         dispatch(
           chatActions.setSocketMessage({ message: data, userId: userId }),
         )
@@ -78,7 +82,10 @@ export const SocketIOContextProvider = ({ children }: PropsWithChildren) => {
     })()
 
     const intervalId = setInterval(() => {
-      if (user?._id) dispatch(chatActions.getAllUnreadCountRequest({}))
+      if (user?._id) {
+        getNotificationCount()
+        dispatch(chatActions.getAllUnreadCountRequest({}))
+      }
     }, 10000)
 
     return () => {
@@ -90,6 +97,8 @@ export const SocketIOContextProvider = ({ children }: PropsWithChildren) => {
   }, [user?._id])
 
   return (
-    <SocketIOContext.Provider value={{}}>{children}</SocketIOContext.Provider>
+    <SocketIOContext.Provider value={{ ref }}>
+      {children}
+    </SocketIOContext.Provider>
   )
 }

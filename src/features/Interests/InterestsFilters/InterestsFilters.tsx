@@ -40,9 +40,7 @@ export const InterestsFilters = ({
     }
   }
 
-  const onFilter = () => {
-    return localData.filter(item => !ids.includes(item._id))
-  }
+  const onFilter = () => localData.filter(item => !ids.includes(item._id))
 
   const onDelete = (id: string) => {
     onChange(interest.filter(item => item._id !== id))
@@ -53,13 +51,11 @@ export const InterestsFilters = ({
     onChange([...interest, item])
   }
 
-  const renderInterest = (item: TInterest) => {
-    return (
-      <HashtagContainer key={item._id} onPress={() => onSelect(item)}>
-        <SRegular>{getTranslate(item.title)}</SRegular>
-      </HashtagContainer>
-    )
-  }
+  const renderInterest = (item: TInterest) => (
+    <HashtagContainer key={item._id} onPress={() => onSelect(item)}>
+      <SRegular>{getTranslate(item.title)}</SRegular>
+    </HashtagContainer>
+  )
 
   useEffect(() => {
     const debouncedSearchInterests = _.debounce(() => searchInterests(), 800)

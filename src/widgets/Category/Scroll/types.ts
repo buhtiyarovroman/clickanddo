@@ -6,4 +6,5 @@ export type TCategoriesScrollProps = {
   loading: boolean
   selectedInterest: string[]
   setSelectedInterest: (id: string) => void
+  canGetMoreItems: boolean
 }

@@ -32,6 +32,7 @@ import { Touchable } from './styled'
 import { Photos } from '@/shared/ui/Photos'
 import { AndroidSoftInputModes } from 'react-native-keyboard-controller'
 import { TCurrencyValue } from '@/widgets/bottomSheet/Currency/types'
+import { getUserSelector } from '@/entities/User'
 
 export const PersonalForm = forwardRef<
   TProjectsCreatePersonalFormRef,
@@ -39,6 +40,7 @@ export const PersonalForm = forwardRef<
 >(({ onChangeValid = () => {} }, ref) => {
   const { t } = useTranslation()
   const { createProjects } = useTypedSelector(getProjectsSelector)
+  const { setting } = useTypedSelector(getUserSelector)
   const [isRemote, setIsRemote] = useState(false)
   const [quick, setQuick] = useState(true)
 
@@ -62,7 +64,7 @@ export const PersonalForm = forwardRef<
       [EProjectCreatePersonalFormFields.startDate]: createProjects.startDate,
       [EProjectCreatePersonalFormFields.budget]: createProjects.budget,
       [EProjectCreatePersonalFormFields.currency]:
-        (createProjects.currency as TCurrencyValue) || 'UAH',
+        (setting.currency as TCurrencyValue) || 'UAH',
     },
   })
 
@@ -217,10 +219,7 @@ export const PersonalForm = forwardRef<
                 <Input.Currency
                   error={errors.budget?.message}
                   currency={value}
-                  onChangeCurrency={value => {
-                    console.log('currency', value)
-                    onChange(value)
-                  }}
+                  onChangeCurrency={onChange}
                   onChangeInput={budget => {
                     onChangeInput(+budget)
                   }}

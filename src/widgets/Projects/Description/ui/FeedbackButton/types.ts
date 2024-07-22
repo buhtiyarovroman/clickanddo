@@ -6,6 +6,12 @@ export type TFeedbackButtonProps = {
 } & Partial<
   Pick<
     TProject,
-    'projectResponses' | 'specialist' | 'owner' | 'name' | 'status'
+    | 'projectResponses'
+    | 'specialist'
+    | 'owner'
+    | 'name'
+    | 'status'
+    | 'customerReview'
+    | 'specialistReview'
   >
 >

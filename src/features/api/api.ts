@@ -3,8 +3,11 @@ import axios, { InternalAxiosRequestConfig } from 'axios'
 
 // if Firebase token
 import auth from '@react-native-firebase/auth'
-import { UserEntities } from '@/entities/User'
+import { userActions, UserEntities } from '@/entities/User'
 import Toast from 'react-native-toast-message'
+import { store } from '@/app/store'
+import { EStacks, Navigation } from '@/app/navigation'
+import { chatActions } from '@/entities/Chat/store'
 
 console.log('HOST =>', HOST)
 
@@ -41,6 +44,8 @@ privateInstance.interceptors.request.use(
 
     const userId = await UserEntities.UserService.getUserId()
 
+    console.log('token =>', token)
+
     if (token && config.headers) {
       //invalid error
       //@ts-ignore
@@ -61,26 +66,36 @@ privateInstance.interceptors.request.use(
 
     return langConfig(config)
   },
-  error => {
-    return Promise.reject(error)
-  },
+  error => Promise.reject(error),
 )
 
 privateInstance.interceptors.response.use(
-  response => {
-    return response
-  },
+  response => response,
   error => {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        store.dispatch(userActions.logout())
+        store.dispatch(chatActions.clearState())
+
+        auth().signOut()
+        Navigation.ref.reset({
+          index: 0,
+          routes: [{ name: EStacks.Auth }],
+        })
+      }
+      console.log('error inter =>', error.response?.status)
+    }
     // handleError(error)
     return Promise.reject(error)
   },
 )
 
 publicInstance.interceptors.request.use(
-  async config => {
-    return langConfig(config)
-  },
+  async config => langConfig(config),
   error => {
+    if (axios.isAxiosError(error)) {
+      console.log('error inter =>', error.code)
+    }
     return Promise.reject(error)
   },
 )

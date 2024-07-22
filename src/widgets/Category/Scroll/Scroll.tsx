@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import { LayoutChangeEvent } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
@@ -21,8 +21,10 @@ export const Scroll = ({
   selectedInterest,
   setSelectedInterest,
   loading,
+  onEndReached,
+  canGetMoreItems,
 }: TCategoriesScrollProps) => {
-  const { i18n } = useTranslation()
+  const { i18n, t } = useTranslation()
 
   const [openComponent, setOpenComponent] = useState<boolean>(false)
   const [singleHeight, setSingleHeight] = useState<number>(0)
@@ -62,7 +64,7 @@ export const Scroll = ({
     )
   }
 
-  if (loading) return <Loader.Standard size={20} />
+  if (loading && interests.length === 0) return <Loader.Standard size={20} />
 
   return (
     <>
@@ -87,9 +89,14 @@ export const Scroll = ({
               ))}
 
               {/* TODO - Check */}
-              {/* <S.InterestItem onPress={onEndReached} mBottom={M_BOTTOM}>
-                <MMedium color={EColors.grey_700}>{t('more')}... </MMedium>
-              </S.InterestItem> */}
+              {!!canGetMoreItems && (
+                <S.InterestItem
+                  isSelected
+                  onPress={onEndReached}
+                  mBottom={M_BOTTOM}>
+                  <MMedium color={EColors.white}>{t('more')}... </MMedium>
+                </S.InterestItem>
+              )}
             </FlexWrapper>
           </AnimatedComponent>
         </FlexWrapper>

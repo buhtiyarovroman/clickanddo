@@ -9,9 +9,7 @@ const baseSearchItem = {
 }
 
 export const styles = StyleSheet.create({
-  main: {
-    backgroundColor: 'red',
-  },
+  main: {},
   list: {
     marginTop: 15,
     width: '100%',

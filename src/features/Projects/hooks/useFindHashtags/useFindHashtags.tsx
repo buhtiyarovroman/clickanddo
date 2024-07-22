@@ -6,23 +6,35 @@ import { UserService } from '@/entities/User/services'
 import i18next from 'i18next'
 import { LoaderContext } from '@/app/contexts/Loader'
 import Toast from 'react-native-toast-message'
+import { usePagination } from '@/features/hooks'
+import { transformHashtags } from '@/shared/config/transformHashtags'
 
 export const useFindHashtags = () => {
   const [search, setSearch] = useState('')
   const [foundHashTags, setFoundHashtags] = useState<THashTag[]>([])
   const [loading, setLoading] = useState<boolean>(false)
+  const [totalCount, setTotalCount] = useState<number>(0)
   const { setLoading: setGlobalLoading } = useContext(LoaderContext)
 
-  const fetchHashtags = async () => {
+  const fetchHashtags = async (skip: number) => {
     try {
       setLoading(true)
+
       const { data } = await UserService.getHashtag({
-        title: search,
-        limit: 10,
-        skip: 0,
+        title: search.toLocaleLowerCase(),
+        limit: 20,
+        skip,
         status: 'approved',
+        lang: i18next.language,
       })
-      setFoundHashtags(data.docs)
+
+      const transform = transformHashtags(data.hits.hits)
+
+      setFoundHashtags(prev =>
+        skip === 0 ? transform : [...prev, ...transform],
+      )
+
+      setTotalCount(data.hits.total.value)
     } catch (err) {
       console.log('useFindHashTags error:', err)
     } finally {
@@ -34,10 +46,10 @@ export const useFindHashtags = () => {
 
   useEffect(() => {
     if (search.length > 2) {
-      debouncedFetchHashtags()
+      debouncedFetchHashtags(0)
     }
     if (search.length === 0) {
-      fetchHashtags()
+      fetchHashtags(0)
     }
     return () => debouncedFetchHashtags.cancel()
   }, [search])
@@ -49,7 +61,7 @@ export const useFindHashtags = () => {
         title: [{ lang: i18next.language, value: search }],
       })
 
-      fetchHashtags()
+      fetchHashtags(0)
 
       setSearch('')
 
@@ -64,6 +76,13 @@ export const useFindHashtags = () => {
     }
   }
 
+  const { ...paginationProps } = usePagination({
+    getAction: fetchHashtags,
+    items: foundHashTags,
+    loading,
+    totalCount,
+  })
+
   return {
     foundHashTags,
     loading,
@@ -71,5 +90,6 @@ export const useFindHashtags = () => {
     setSearch,
     onAddHashTag,
     fetchHashtags,
+    ...paginationProps,
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useRef, useState, useContext, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { captureException } from '@sentry/react-native'
 
@@ -24,17 +24,21 @@ import { Button } from '@/shared/ui/button'
 import { EColors } from '@/shared/ui/Styled'
 import { Background } from '@/shared/ui/background'
 import { CustomBottomBar } from '@/shared/ui/CustomBottomBar'
-import { Image } from 'react-native'
+import { BackHandler, Image } from 'react-native'
 
 import { TPostPhotosProps } from './types'
 import { useDispatch } from 'react-redux'
 import { useTypedSelector } from '@/app/store'
+import { TModalViewRef } from '@/shared/ui/modals/ViewModal'
+import { Modal } from '@/shared/ui/modals'
 
 export const Main = () => {
   const { t } = useTranslation()
   const { goBack, reset } = useNavigation()
   const { setLoading, loader } = useContext(LoaderContext)
   const ref = useRef<TCreatePublicationFormRef | null>(null)
+  const modalRef = useRef<TModalViewRef>(null)
+
   const dispatch = useDispatch()
   const { createPublication } = useTypedSelector(getPublicationSelector)
 
@@ -94,8 +98,8 @@ export const Main = () => {
             }
           : {}),
         address: formData.location,
-        price: !!formData.price?.length ? Number(formData.price) : undefined,
-        currency: !!formData.price?.length ? formData.currency : undefined,
+        price: !!formData.price ? Number(formData.price) : undefined,
+        currency: !!formData.price ? formData.currency : undefined,
         hideLikes: formData.hideLikes,
         imageHeight: imageHeight ?? undefined,
         imageWidth: imageWidth ?? undefined,
@@ -128,10 +132,11 @@ export const Main = () => {
       onSetDefault()
     } catch (e) {
       // TODO - Add error alert
-      console.error('postPublication err =>', e.response.data)
+      console.error('postPublication err =>', e?.response?.data)
       captureException(e)
       setLoading(false)
     }
+    setLoading(false)
   }
 
   const postPhotos = async ({ id, images }: TPostPhotosProps) => {
@@ -166,11 +171,30 @@ export const Main = () => {
     goBack()
   }
 
+  const _onGoBack = () => {
+    modalRef.current?.open()
+  }
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        modalRef.current?.open()
+
+        return true
+      },
+    )
+
+    return () => backHandler.remove()
+  }, [])
+
+  const onClose = () => {}
+
   return (
     <>
       <Header.CenterTitle
         goBack
-        onGoBack={onPressClose}
+        onGoBack={_onGoBack}
         title={t(isEdit ? 'new_publication.edit' : 'new_publication.title')}
         disableShadow
         rightIcon={'Close'}
@@ -178,7 +202,7 @@ export const Main = () => {
           size: 18,
           stroke: EColors.grey_800,
         }}
-        onPressRightIcon={onPressClose}
+        onPressRightIcon={_onGoBack}
       />
 
       <Background.Scroll
@@ -197,6 +221,13 @@ export const Main = () => {
           disabled={loader}
         />
       </CustomBottomBar>
+
+      <Modal.AcceptModal
+        title={t('modal_go_back')}
+        ref={modalRef}
+        onPressAgree={onPressClose}
+        onPressDisagree={onClose}
+      />
     </>
   )
 }

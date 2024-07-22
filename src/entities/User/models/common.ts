@@ -113,8 +113,30 @@ export type TGeometryPlace = {
 }
 
 export type THashTag = {
+  __v: number
   _id: string
+  category: string
+  createdAt: string
+  interest: string
+  status: string
   title: TTranslateValue[]
+  updatedAt: string
+}
+
+export type TSearchHashTag = {
+  _index: string
+  _id: string
+  _score: number
+  _source: {
+    title: TTranslateValue[]
+    interest: string
+    status: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+    category: string
+    oid: string
+  }
 }
 
 export type THashTagStatus = 'approved' | 'pending'

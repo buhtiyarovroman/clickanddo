@@ -13,17 +13,7 @@ export const createProjectFirstValidation = z.object({
     }),
   ),
   hashtag: z
-    .array(
-      z.object({
-        _id: z.string(),
-        title: z.array(
-          z.object({
-            lang: z.string(),
-            value: z.string(),
-          }),
-        ),
-      }),
-    )
+    .array(z.any())
     .min(1, { message: t('validation_error.no_empty') })
     .max(20, { message: 'too lagre' }),
 })

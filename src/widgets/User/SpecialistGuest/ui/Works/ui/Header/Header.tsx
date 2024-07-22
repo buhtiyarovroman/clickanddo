@@ -64,16 +64,14 @@ export const Header = ({
 
       <Button.Select
         reverseItem
-        renderFromComponent={() => {
-          return (
-            <FlexWrapper flexDirection={'row'} width={'auto'}>
-              <Icon name={'Sort'} size={14} />
-              <MMedium mLeft={'8px'} color={EColors.grey_800}>
-                {t(sortType)}
-              </MMedium>
-            </FlexWrapper>
-          )
-        }}
+        renderFromComponent={() => (
+          <FlexWrapper flexDirection={'row'} width={'auto'}>
+            <Icon name={'Sort'} size={14} />
+            <MMedium mLeft={'8px'} color={EColors.grey_800}>
+              {t(sortType)}
+            </MMedium>
+          </FlexWrapper>
+        )}
         items={projectOptions}
       />
     </FlexWrapper>

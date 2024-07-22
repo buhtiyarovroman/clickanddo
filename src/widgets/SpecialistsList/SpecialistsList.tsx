@@ -15,27 +15,23 @@ import { SpecialistEntities } from '@/entities/Specialist'
 
 export const SpecialistsList = ({
   selectedInterest = [],
+  category,
 }: TSpecialistsListProps) => {
   const { navigate } = useNavigation()
+
   const {
     data: specialists,
     getFirstPage,
     loadMoreLoading,
     canGetMoreItems,
     getMore,
-    setData: setSpecialist,
   } = useGetSpecialists({
+    category: [category],
     interest: selectedInterest,
   })
 
   useEffect(() => {
-    if (!selectedInterest.length) {
-      setSpecialist([])
-      return
-    }
-    if (selectedInterest) {
-      getFirstPage()
-    }
+    getFirstPage()
   }, [selectedInterest])
 
   const renderSeparator = () => <View style={styles.separator} />
@@ -60,14 +56,12 @@ export const SpecialistsList = ({
     })
   }
 
-  const renderItem = ({ item }: { item: TUser }) => {
-    return (
-      <SpecialistEntities.SpecialistCard
-        onPress={() => onGoSpecialistProfile(item._id)}
-        item={item}
-      />
-    )
-  }
+  const renderItem = ({ item }: { item: TUser }) => (
+    <SpecialistEntities.SpecialistCard
+      onPress={() => onGoSpecialistProfile(item._id)}
+      item={item}
+    />
+  )
 
   return (
     <>

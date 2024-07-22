@@ -1,11 +1,11 @@
 import React from 'react'
 
 import { TUserSpecialistWorksProps } from './types'
-import { UserSpecialistFeatures } from '../../..'
-import { Background } from '@/shared/ui/background'
+import { UserSpecialistFeatures } from '../../../../../features/User/Specialist'
 import { TAB_HEIGHT } from '@/widgets/BottomTab/useAnimatedTab'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native'
+import { ScrollView } from 'react-native-collapsible-tab-view'
 
 export const Works = ({ _id, isEdit = false }: TUserSpecialistWorksProps) => {
   const { bottom } = useSafeAreaInsets()
@@ -20,7 +20,7 @@ export const Works = ({ _id, isEdit = false }: TUserSpecialistWorksProps) => {
   // }, [sort])
 
   return (
-    <Background.Scroll
+    <ScrollView
       nestedScrollEnabled
       contentContainerStyle={[
         { paddingBottom: TAB_HEIGHT + bottom + 32 },
@@ -34,7 +34,7 @@ export const Works = ({ _id, isEdit = false }: TUserSpecialistWorksProps) => {
 
       {/* Skillboxes */}
       {/* <UserSpecialistFeatures.SkillBox {...{ isEdit, _id }} /> */}
-    </Background.Scroll>
+    </ScrollView>
   )
 }
 

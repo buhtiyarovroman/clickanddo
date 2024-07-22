@@ -11,7 +11,7 @@ import { useNavigation } from '@/features/hooks'
 import { getChatSelector } from '@/entities/Chat/store'
 
 export const useCreateChat = ({}: TUseCreateChat) => {
-  const { setLoading } = useContext(LoaderContext)
+  const { setLoading, loader } = useContext(LoaderContext)
   const { user } = useTypedSelector(getUserSelector)
   const { chatList, projectChatList } = useTypedSelector(getChatSelector)
   const { navigate } = useNavigation()
@@ -21,6 +21,8 @@ export const useCreateChat = ({}: TUseCreateChat) => {
     project?: string,
     disableNavigation?: boolean,
   ) => {
+    console.log('PRESSS CHAT')
+
     try {
       setLoading(true)
       if (!_id || !user?._id) {
@@ -80,5 +82,6 @@ export const useCreateChat = ({}: TUseCreateChat) => {
   }
   return {
     onCreateChat,
+    loader,
   }
 }

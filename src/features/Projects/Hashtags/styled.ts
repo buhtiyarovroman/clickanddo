@@ -1,5 +1,5 @@
 import { EColors } from '@/shared/ui/Styled'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import styled from 'styled-components'
 
 export const HashtagContainer = styled(TouchableOpacity).attrs({
@@ -10,3 +10,12 @@ export const HashtagContainer = styled(TouchableOpacity).attrs({
   background-color: ${EColors.grey_200};
   margin: 0px 8px 8px 0px;
 `
+
+export const ListContainer = styled(View)`
+  height: 150px;
+  width: 100%;
+`
+
+export const styles = StyleSheet.create({
+  list: { flexWrap: 'wrap', flexDirection: 'row' },
+})

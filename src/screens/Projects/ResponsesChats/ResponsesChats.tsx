@@ -23,7 +23,7 @@ export const ResponsesChats = () => {
 
   const isCustomer = user?.role === 'customer'
 
-  const { id, title, tabType, specialist } =
+  const { id, title, specialist } =
     useRoute<RouteProp<TJobStack, EScreens.JobResponsesChats>>().params
 
   const homeTabBar = [
@@ -82,7 +82,7 @@ export const ResponsesChats = () => {
             routes={homeTabBar}
             renderScene={renderScene}
             tabStyle={styles.tabStyle}
-            activeTab={homeTabBar.findIndex(item => item.key === tabType) || 0}
+            activeTab={0}
           />
         )}
 

@@ -8,6 +8,7 @@ export const Container = styled(View)`
   background-color: ${EColors.white};
   flex: 1;
   z-index: -1;
+  overflow: hidden;
 `
 
 export const styles = StyleSheet.create({

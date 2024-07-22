@@ -12,22 +12,19 @@ export const Scroll = ({
   keyboardShouldPersistTaps,
   ref,
   ...props
-}: TScrollProps) => {
-  console.log('ref =>', ref)
-  return (
-    <>
-      <KeyboardAwareScrollView
-        style={[styles.container]}
-        extraScrollHeight={extraHeight}
-        enableOnAndroid={true}
-        enableAutomaticScroll={true}
-        {...keyboardAwareViewProps}
-        keyboardShouldPersistTaps={keyboardShouldPersistTaps}
-        bounces={true}
-        {...props}
-        ref={ref}>
-        <ScrollContainer pHorizontal={pHorizontal}>{children}</ScrollContainer>
-      </KeyboardAwareScrollView>
-    </>
-  )
-}
+}: TScrollProps) => (
+  <>
+    <KeyboardAwareScrollView
+      style={[styles.container]}
+      extraScrollHeight={extraHeight}
+      enableOnAndroid={true}
+      enableAutomaticScroll={true}
+      {...keyboardAwareViewProps}
+      keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+      bounces={true}
+      {...props}
+      ref={ref}>
+      <ScrollContainer pHorizontal={pHorizontal}>{children}</ScrollContainer>
+    </KeyboardAwareScrollView>
+  </>
+)

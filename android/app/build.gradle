@@ -81,7 +81,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "3.23"
+        versionName "3.35"
         vectorDrawables.useSupportLibrary = true
 
         archivesBaseName = "Click&Do-v${versionCode}_${versionName}"

@@ -3,6 +3,7 @@ import { TReview } from '../models'
 
 export type TUserReviewCardProps = {
   rating?: number
+  isMyProfile?: boolean
 } & Partial<TStyledContainer> &
   Partial<
     Pick<TReview, 'title' | 'description' | 'createdAt' | 'mark' | 'owner'>

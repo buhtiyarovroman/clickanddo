@@ -8,15 +8,18 @@ import { Background } from '@/shared/ui/background'
 import { styles } from './styled'
 
 import { useGetFavorites } from '@/features/Favorites'
+import { useGetMyPosition } from '@/features/hooks'
 
 export const Main = () => {
   const { user } = useTypedSelector(getUserSelector)
   const { getFirstPage } = useGetFavorites({ limit: 10 })
+  const { getCurrentLocation } = useGetMyPosition({})
 
   const isCustomer = user?.role === 'customer'
 
   useEffect(() => {
     getFirstPage()
+    getCurrentLocation()
   }, [])
 
   return (

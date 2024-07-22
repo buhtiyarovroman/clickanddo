@@ -31,7 +31,7 @@ export const Avatar = ({
       dispatch(userActions.getCurrentUserRequest({}))
       dispatch(userActions.getAllUserRequest({}))
     } catch (err) {
-      console.log('sendPhoto err => ', err)
+      console.log('sendPhoto err => ', err.response.data)
     }
   }
 
@@ -40,10 +40,10 @@ export const Avatar = ({
 
     if (sizeMB > maxSizeMB) {
       Toast.show({ type: 'error', text1: t('errors.photo_size') })
-      return false
+      return undefined
     }
 
-    return true
+    return image
   }
 
   const CurrentIcon: TIconsKeys = isCustomer ? 'Instruments' : 'Star'

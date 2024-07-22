@@ -9,13 +9,12 @@ import { getTranslate } from '@/shared/utils'
 export const HashtagDisplay = ({
   hashtag = [],
 }: TProjectPreviewHashtagDisplayProps) => {
-  const renderItem = (item: THashTag) => {
-    return (
-      <HashtagContainer key={item._id}>
-        <SRegular color={EColors.grey_600}>{getTranslate(item.title)}</SRegular>
-      </HashtagContainer>
-    )
-  }
+  const renderItem = (item: THashTag) => (
+    <HashtagContainer key={item._id}>
+      <SRegular color={EColors.grey_600}>{getTranslate(item.title)}</SRegular>
+    </HashtagContainer>
+  )
+
   return (
     <>
       <FlexWrapper

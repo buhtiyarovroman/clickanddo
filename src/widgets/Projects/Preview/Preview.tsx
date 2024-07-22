@@ -14,7 +14,7 @@ export const Preview = (data: TProjectPreviewProps) => {
 
   return (
     <View style={{ paddingBottom: bottom + 16 }}>
-      <ProjectSlider {...data} />
+      {!!data.images?.length && <ProjectSlider {...data} />}
 
       <ContentContainer>
         <ProjectEntities.MainInfo isCreate {...data} />

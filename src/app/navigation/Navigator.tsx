@@ -6,13 +6,11 @@ import { Navigation } from './ref'
 import { Contexts } from '../contexts'
 import { HandleDeepLinking } from './HandleDeepLinking'
 
-export const Navigator = () => {
-  return (
-    <NavigationContainer ref={Navigation.ref}>
-      <Contexts>
-        <HandleDeepLinking />
-        <MainStack />
-      </Contexts>
-    </NavigationContainer>
-  )
-}
+export const Navigator = () => (
+  <NavigationContainer ref={Navigation.ref}>
+    <Contexts>
+      <HandleDeepLinking />
+      <MainStack />
+    </Contexts>
+  </NavigationContainer>
+)

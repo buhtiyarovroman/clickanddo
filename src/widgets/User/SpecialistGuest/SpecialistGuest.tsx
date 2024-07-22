@@ -1,23 +1,58 @@
-import React from 'react'
-import { FlatList } from 'react-native'
+import React, { useState } from 'react'
 
 import { TWidgetUserSpecialistGuest } from './types'
-import { Header } from './ui'
-import { v4 as uuidv4 } from 'uuid'
-import { SpecialistGuestTabs } from '@/features/User/Specialist/SpecialistGuestTabs'
+import * as S from './styled'
+import * as UI from './ui'
+
+import { CollapsibleTabView } from '@/shared/ui/CollapsibleTabView'
+import { TCollapsibleTabViewData } from '@/shared/ui/CollapsibleTabView/types'
+
+import { useTranslation } from 'react-i18next'
+import { ReviewsCollapsible } from '../Customer/ui'
 
 export const SpecialistGuest = ({
   isEdit = false,
   user,
-}: TWidgetUserSpecialistGuest) => (
-  <FlatList
-    keyExtractor={() => uuidv4()}
-    showsVerticalScrollIndicator={false}
-    scrollEnabled={true}
-    nestedScrollEnabled
-    data={[1]}
-    ListHeaderComponent={<Header user={user} {...{ isEdit }} />}
-    stickyHeaderIndices={[1]}
-    renderItem={() => <SpecialistGuestTabs {...{ isEdit, user }} />}
-  />
-)
+}: TWidgetUserSpecialistGuest) => {
+  const [headerHeight, setHeaderHeight] = useState(0)
+
+  const { t } = useTranslation()
+
+  //Screen keys
+  const homeTabBar: TCollapsibleTabViewData[] = [
+    {
+      key: 0,
+      name: 'work',
+      label: t('specialist_works'),
+      Component: <UI.Works isEdit={isEdit} _id={user?._id} />,
+    },
+
+    {
+      key: 1,
+      name: 'information',
+      label: t('specialist_information'),
+      Component: <UI.Information {...{ isEdit, user }} />,
+    },
+    {
+      key: 2,
+      name: 'reviews',
+      label: t('customer_reviews'),
+      Component: <ReviewsCollapsible {...user} />,
+    },
+  ]
+
+  const renderHeader = () => (
+    <UI.Header {...{ isEdit, user }} getHeight={setHeaderHeight} />
+  )
+
+  return (
+    <S.Container>
+      <CollapsibleTabView
+        headerHeight={headerHeight}
+        data={homeTabBar}
+        initialTabName={''}
+        renderHeader={renderHeader}
+      />
+    </S.Container>
+  )
+}

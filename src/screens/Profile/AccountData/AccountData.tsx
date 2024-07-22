@@ -11,10 +11,13 @@ import { AccountDataForm, TAccountDataFormRef } from '@/features/User'
 import { useTypedSelector } from '@/app/store'
 import Toast from 'react-native-toast-message'
 import { EToastType } from '@/app/contexts/Toast/types'
+import { useNavigation } from '@/features/hooks'
 
 export const AccountData = () => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const { goBack } = useNavigation()
   const { setLoading } = useContext(LoaderContext)
   const { user } = useTypedSelector(getUserSelector)
   const formRef = useRef<TAccountDataFormRef | null>(null)
@@ -63,12 +66,12 @@ export const AccountData = () => {
             }),
       }
 
-      console.log('currentData =>', currentData)
-
       await UserEntities.UserService.pathUser(currentData)
 
       dispatch(userActions.getCurrentUserRequest({}))
       dispatch(userActions.getAllUserRequest({}))
+
+      goBack()
       Toast.show({ type: EToastType.success, text2: 'toasts.change_profile' })
     } catch (err) {
       console.log('onSubmit register =>', err)

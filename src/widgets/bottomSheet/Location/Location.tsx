@@ -58,6 +58,14 @@ export const Location = forwardRef<
       needTranslate: value.needTranslate,
     })
 
+    console.log('addreesss =>', {
+      radius: value.radius,
+      lat: value.lat,
+      lon: value.lon,
+      address: value.address,
+      needTranslate: value.needTranslate,
+    })
+
     onClose()
   }
 

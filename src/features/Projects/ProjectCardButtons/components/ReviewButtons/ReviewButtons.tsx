@@ -21,6 +21,7 @@ export const ReviewButtons = ({
   isMarkDoneStatus = false,
   isPendingSpecialistStatus = false,
   onRefresh = () => {},
+  origin,
 }: TProjectCardButtonsReviewButtonsProps) => {
   const { t } = useTranslation()
   const reviewOfSpecialistRef = useRef<TBottomSheetBaseRef | null>(null)
@@ -71,6 +72,7 @@ export const ReviewButtons = ({
           specialist,
           onRefresh,
           isPendingSpecialistStatus,
+          origin,
         }}
         onOpenReview={onOpenReviewOfSpecialist}
       />

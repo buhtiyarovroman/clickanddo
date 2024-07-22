@@ -8,11 +8,15 @@ export const AddChangeButtons = ({
   onEditPress = () => {},
   hideAdd = false,
   hideEdit = false,
-}: TAddChangeButtonsProps) => {
-  return (
-    <FlexWrapper width={'auto'}>
-      {!hideEdit && <Button.IconButton onPress={onEditPress} mRight={'12px'} />}
-      {!hideAdd && <Button.IconButton onPress={onAddPress} icon={'PlusGray'} />}
-    </FlexWrapper>
-  )
-}
+}: TAddChangeButtonsProps) => (
+  <FlexWrapper width={'auto'}>
+    {!hideEdit && <Button.IconButton onPress={onEditPress} />}
+    {!hideAdd && (
+      <Button.IconButton
+        onPress={onAddPress}
+        mLeft={'12px'}
+        icon={'PlusGray'}
+      />
+    )}
+  </FlexWrapper>
+)

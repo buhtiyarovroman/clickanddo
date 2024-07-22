@@ -13,7 +13,7 @@ export const ChatCardContainer = styled(TouchableOpacity).attrs({
   border-radius: 12px ${FLEX({ justify: 'space-between' })};
 `
 
-export const ChatUserImage = styled(Image.Standard).attrs({})`
+export const ChatUserImage = styled(Image.Standard).attrs({ borderRadius: 0 })`
   width: 60px;
   height: 60px;
   border-radius: 100px;

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ONESIGNAL_APP_ID } from '@env'
 import React, { createContext, useCallback, useEffect } from 'react'
 
@@ -10,7 +10,7 @@ import {
   EPushType,
 } from './types'
 import { useTypedSelector } from '@/app/store'
-import { getUserSelector } from '@/entities/User'
+import { getUserSelector, userActions } from '@/entities/User'
 import { useNavigation } from '@/features/hooks'
 import { EScreens, ETabStacks } from '@/app/navigation'
 import { ChatService } from '@/entities/Chat/services'
@@ -20,7 +20,8 @@ import { PublicationService } from '@/entities/Publication/services'
 import { useDispatch } from 'react-redux'
 import { notificationsActions } from '@/entities/Notifications/store/actions'
 import { useGetNotifications } from '@/features/Notifications'
-import { CommonActions } from '@react-navigation/native'
+import { UserService } from '@/entities/User/services'
+// import { CommonActions } from '@react-navigation/native'
 // import auth from '@react-native-firebase/auth'
 
 export const PushNotificationsContext =
@@ -35,22 +36,48 @@ OneSignal.setAppId(ONESIGNAL_APP_ID)
 export const PushNotificationWrapper = ({
   children,
 }: TPushNotificationContext) => {
-  const { user, setting } = useTypedSelector(getUserSelector)
+  const { user, setting, userSessions } = useTypedSelector(getUserSelector)
   const { setLoading } = useContext(LoaderContext)
   const dispatch = useDispatch()
-  const [playerId, setPlayerId] = useState('')
-  const { navigate, dispatch: navigateDispatch } = useNavigation()
+  const { navigate } = useNavigation()
   const { getNotificationCount } = useGetNotifications({})
 
   const notificationOpenHandler = useCallback(
     async (notification: OpenedEvent) => {
+      console.log('notification =>', notification)
       try {
         const payload = notification.notification
           .additionalData as TNotificationPayload
 
         setLoading(true)
 
+        if (!payload?.recipients?.includes(user?._id || '')) {
+          console.log('!payload?.recipients?.includes')
+          const sessionsIDs = userSessions.map(item => item._id)
+
+          console.log('sessionsIDs', sessionsIDs)
+          const id = payload?.recipients.find(item =>
+            sessionsIDs.includes(item),
+          )
+
+          console.log('id', id)
+
+          if (!id) return
+
+          const newUser = userSessions.find(item => item._id === id)
+
+          console.log('newUser', !!newUser)
+
+          if (!newUser) return
+
+          dispatch(userActions.setUser(newUser))
+
+          UserService.setUserId(newUser._id)
+        }
+
         dispatch(notificationsActions.getNotificationsRequest({}))
+
+        console.log('payload.type', payload.type)
 
         if (payload.type === EPushType.chat) {
           if (payload.id) {
@@ -221,14 +248,14 @@ export const PushNotificationWrapper = ({
 
   useEffect(() => {
     if (user?._id) {
-      console.log('EXTERNAL_ID =>', user._id)
-      OneSignal.setExternalUserId(user._id)
+      console.log('EXTERNAL_ID =>', user.firebaseId)
+      OneSignal.setExternalUserId(user.firebaseId)
     }
   }, [user?._id])
 
   return (
     <>
-      <PushNotificationsContext.Provider value={{ enablePush, playerId }}>
+      <PushNotificationsContext.Provider value={{ enablePush }}>
         {children}
       </PushNotificationsContext.Provider>
     </>

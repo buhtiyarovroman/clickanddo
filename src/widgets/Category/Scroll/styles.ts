@@ -12,7 +12,7 @@ export const InterestItem = styled(TouchableOpacity).attrs({
   border-radius: 7px;
   background-color: ${({ isSelected }) =>
     isSelected ? EColors.grey_700 : EColors.grey_200};
-  margin-right: 10px;
+  margin-right: 5px;
   margin-bottom: ${({ mBottom }) => mBottom}px;
 `
 

@@ -24,6 +24,8 @@ import { getPublicationSelector } from '@/entities/Publication'
 import { TPublication } from '@/entities/Publication/models'
 import { Svg } from '@assets/Svg'
 import * as UI from './ui'
+import { getUserSelector } from '@/entities/User'
+import { useGetMyPosition } from '@/features/hooks'
 
 const PROVIDER = Platform.OS === 'android' ? PROVIDER_GOOGLE : PROVIDER_DEFAULT
 
@@ -31,6 +33,8 @@ export const Map = () => {
   const mapRef = useRef<NativeMap | null>(null)
   const bsRef = useRef<TBottomSheetBaseRef | null>(null)
   const { listFilters } = useTypedSelector(getPublicationSelector)
+  const { userLocation } = useTypedSelector(getUserSelector)
+  const { getCurrentLocation } = useGetMyPosition({})
 
   const isFocused = useIsFocused()
 
@@ -42,25 +46,45 @@ export const Map = () => {
     })
 
   const initialRegion = {
-    latitude: !!listFilters.latitude ? listFilters.latitude : 52.510605,
-    longitude: !!listFilters.longitude ? listFilters.longitude : 13.402759,
-    latitudeDelta: 0.1022,
-    longitudeDelta: 0.1021,
+    latitude: listFilters.latitude || userLocation?.latitude || 52.510605,
+    longitude: listFilters.longitude || userLocation?.longitude || 13.402759,
+    latitudeDelta: 0.1222,
+    longitudeDelta: 0.1221,
   }
 
-  useEffect(() => {
+  const preload = async () => {
     getFirstPage()
 
-    if (listFilters.latitude && listFilters.longitude) {
-      console.log('work')
-      mapRef.current?.animateToRegion({
-        latitude: listFilters.latitude,
-        longitude: listFilters.longitude,
-        latitudeDelta: 0.1022,
-        longitudeDelta: 0.1021,
-      })
+    const coords = await getCurrentLocation()
+
+    console.log('coords =>', !!coords)
+
+    let navigateRegion = {
+      latitude:
+        listFilters.latitude ||
+        coords?.coordinates.latitude ||
+        userLocation?.latitude ||
+        52.510605,
+      longitude:
+        listFilters.longitude ||
+        coords?.coordinates.longitude ||
+        userLocation?.longitude ||
+        13.402759,
+      latitudeDelta: 0.1222,
+      longitudeDelta: 0.1221,
     }
+
+    mapRef.current?.animateToRegion(navigateRegion)
+  }
+  useEffect(() => {
+    preload()
   }, [isFocused])
+
+  useEffect(() => {
+    if (!listFilters.latitude && !listFilters.longitude) {
+      mapRef.current?.animateToRegion(initialRegion)
+    }
+  }, [userLocation])
 
   const renderMarkers = useCallback(
     (item: TPublication) => {
@@ -111,9 +135,9 @@ export const Map = () => {
         <BottomSheet.View
           ref={bsRef}
           initialIndex={1}
-          snapPoints={['10%', '55%', '90%']}
+          snapPoints={['10%', '40%', '55%', '90%']}
           hasBackdrop={false}
-          {...(Platform.OS === 'android' && { withScroll: true })}
+          withScroll
           enablePanDownToClose={false}>
           <UI.MapList
             publication={publication}

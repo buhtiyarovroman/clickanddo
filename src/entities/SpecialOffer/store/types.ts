@@ -1,6 +1,4 @@
 import { THashTag } from './../../User/models/common'
-import { TInterest } from './../../Interests/models/common'
-import { TCategory } from '@/entities/Category/models'
 
 export type TCreateSpecialOfferData = {
   id: string

@@ -10,10 +10,6 @@ import { EColors } from '@/shared/ui/Styled'
 import { ContentContainer } from './styled'
 import { TBottomSheetBaseProps, TBottomSheetBaseRef } from './types'
 
-const renderBackdrop = (props: BottomSheetBackdropProps) => (
-  <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
-)
-
 export const Base = forwardRef<TBottomSheetBaseRef, TBottomSheetBaseProps>(
   (
     {
@@ -26,6 +22,7 @@ export const Base = forwardRef<TBottomSheetBaseRef, TBottomSheetBaseProps>(
       containerStyle = {},
       borderRadius = 12,
       isList,
+      onBackdropPress = () => {},
     },
     ref,
   ) => {
@@ -39,6 +36,20 @@ export const Base = forwardRef<TBottomSheetBaseRef, TBottomSheetBaseProps>(
         bottomSheetRef.current?.dismiss()
       },
     }))
+
+    const onBackdropClose = () => {
+      bottomSheetRef.current?.dismiss()
+      onBackdropPress()
+    }
+
+    const renderBackdrop = (props: BottomSheetBackdropProps) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={-1}
+        appearsOnIndex={0}
+        onPress={onBackdropClose}
+      />
+    )
 
     const defaultBackground = EColors.white
     const indicatorStyle = {

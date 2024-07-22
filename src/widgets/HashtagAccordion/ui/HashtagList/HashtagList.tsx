@@ -8,10 +8,11 @@ import { LayoutChangeEvent } from 'react-native/types'
 import { THashtagAccordionListProps } from '../../types'
 import * as S from './styled'
 import { EmptyHashtag } from '@/entities/User/EmptyHashtag'
+import { useTypedSelector } from '@/app/store'
+import { getUserSelector } from '@/entities/User'
 
 export const HashtagList = ({
   searchableHashtag = [],
-  setSearchableHashtag = () => {},
 
   selectedHashtag = [],
   setSelectedHashtag = () => {},
@@ -19,14 +20,12 @@ export const HashtagList = ({
   loading = false,
   onAddHashTag = () => {},
 
-  setSearch = () => {},
   setDataHeight = () => {},
   setResultHeight = () => {},
 }: THashtagAccordionListProps) => {
-  const onClearInput = () => {
-    setSearch('')
-  }
-
+  const { user } = useTypedSelector(getUserSelector)
+  const hashtagIDS = user?.hashtag.map(item => item._id) || []
+  const data = searchableHashtag.filter(item => !hashtagIDS.includes(item._id))
   const onPressHashtag = (searchHashtag: THashTag) => {
     setSelectedHashtag([...selectedHashtag, searchHashtag])
   }
@@ -47,13 +46,18 @@ export const HashtagList = ({
     setResultHeight(height + 8)
   }
 
-  const renderCurrentHashtag = (item: THashTag) => {
-    return <HashtagItem isActive {...item} onPress={onPressSelectedHashtag} />
-  }
+  const renderCurrentHashtag = (item: THashTag) => (
+    <HashtagItem
+      key={item._id}
+      isActive
+      {...item}
+      onPress={onPressSelectedHashtag}
+    />
+  )
 
-  const renderSearchHashtag = (item: THashTag) => {
-    return <HashtagItem {...item} onPress={onPressHashtag} />
-  }
+  const renderSearchHashtag = (item: THashTag) => (
+    <HashtagItem key={item._id} {...item} onPress={onPressHashtag} />
+  )
 
   return (
     <>
@@ -72,9 +76,9 @@ export const HashtagList = ({
       {/* Searchable hashtag */}
       <S.SearchingHashtagScroll onLayout={handleResultHeight}>
         {selectedHashtag.length < 3 &&
-          !!searchableHashtag.length &&
-          searchableHashtag.map(renderSearchHashtag)}
-        {selectedHashtag.length < 3 && !searchableHashtag.length && (
+          !!data.length &&
+          data.map(renderSearchHashtag)}
+        {selectedHashtag.length < 3 && !data.length && (
           <>
             <EmptyHashtag onPress={onAddHashTag} />
           </>

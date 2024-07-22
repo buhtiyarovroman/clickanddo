@@ -29,14 +29,12 @@ export const AccountDataForm = forwardRef<
 >(({ onChangeValid = () => {} }, ref) => {
   const { t } = useTranslation()
   const { user } = useTypedSelector(getUserSelector)
-  const isCustomer = user?.role === 'customer'
   const phoneRef = useRef<TPhoneInputRef | null>(null)
 
   const {
     control,
     getValues,
     trigger,
-    setError,
     watch,
     formState: { errors, isValid },
   } = useForm<TForm>({
@@ -76,14 +74,6 @@ export const AccountDataForm = forwardRef<
       }
 
       const data = getValues()
-
-      if (isCustomer && !data.about) {
-        setError(EAccountDataFormFields.description, {
-          message: t('validation_error.no_empty'),
-        })
-
-        return null
-      }
 
       return {
         ...data,
@@ -176,7 +166,9 @@ export const AccountDataForm = forwardRef<
                     if (!cords) onChangeCoordinates([])
                     if (cords) onChangeCoordinates([cords?.lng, cords?.lat])
                   }}
-                  error={errors.location?.message}
+                  error={
+                    errors.location?.message || errors.coordinates?.message
+                  }
                   label={t('inputs.country')}
                 />
               )}

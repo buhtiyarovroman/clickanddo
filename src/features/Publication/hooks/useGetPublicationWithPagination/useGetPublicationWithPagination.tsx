@@ -36,18 +36,18 @@ export const useGetPublicationWithPagination = ({
       try {
         setLoading(true)
 
-        console.log('params =>', {
-          limit,
-          skip: nextSkip,
-          type: listFilters.type,
-          maxDistance: 20000,
-          radius: listFilters.radius,
-          currency: setting.currency,
-          priceHb: listFilters.max,
-          priceLb: listFilters.min,
-          hashtag,
-          ...params,
-        })
+        // console.log('params =>', {
+        //   limit,
+        //   skip: nextSkip,
+        //   type: listFilters.type,
+        //   maxDistance: 20000,
+        //   radius: listFilters.radius,
+        //   currency: setting.currency,
+        //   priceHb: listFilters.max,
+        //   priceLb: listFilters.min,
+        //   hashtag,
+        //   ...params,
+        // })
 
         const response =
           await PublicationEntities.PublicationService.getPublication({

@@ -43,7 +43,7 @@ export const Main = () => {
           firebaseId: auth()?.currentUser?.uid,
         })
 
-        if (response.data.localPhone || response.data.firebasePhone) {
+        if (response.data.firebasePhone) {
           Toast.show({
             type: 'error',
             text2: 'firebase_error.auth/credential-already-in-use',
@@ -79,7 +79,7 @@ export const Main = () => {
 
   return (
     <Background.SafeArea>
-      <Header.Standard goBack title={t('personal_data')} />
+      <Header.Standard openDriver goBack title={t('personal_data')} />
 
       <Background.Scroll
         nestedScrollEnabled

@@ -19,6 +19,7 @@ export type TInitialPublicationState = {
     radius?: number
     address?: string
     needAddressTranslate?: boolean
+    hashtag?: string[]
   }
 }
 

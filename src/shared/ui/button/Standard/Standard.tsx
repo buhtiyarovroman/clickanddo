@@ -22,31 +22,29 @@ export const Standard = ({
   iconProps = {},
   opacity = 0.5,
   ...props
-}: TStandard) => {
-  return (
-    <StyledButton
-      activeOpacity={opacity}
-      color={color}
-      width={width}
-      height={height}
-      mTop={mTop}
-      mBottom={mBottom}
-      radius={radius}
-      mLeft={mLeft}
-      mRight={mRight}
-      disabled={!!disabled}
-      hideBorder={hideBorder}
-      {...props}>
-      {!!icon && <Icon name={icon} {...iconProps} />}
-      {!!text && (
-        <StyledText
-          mLeft={!!icon ? '8px' : '0px'}
-          color={textColor}
-          disabled={!!disabled}>
-          {text}
-        </StyledText>
-      )}
-      {children}
-    </StyledButton>
-  )
-}
+}: TStandard) => (
+  <StyledButton
+    activeOpacity={opacity}
+    color={color}
+    width={width}
+    height={height}
+    mTop={mTop}
+    mBottom={mBottom}
+    radius={radius}
+    mLeft={mLeft}
+    mRight={mRight}
+    disabled={!!disabled}
+    hideBorder={hideBorder}
+    {...props}>
+    {!!icon && <Icon name={icon} {...iconProps} />}
+    {!!text && (
+      <StyledText
+        mLeft={!!icon ? '8px' : '0px'}
+        color={textColor}
+        disabled={!!disabled}>
+        {text}
+      </StyledText>
+    )}
+    {children}
+  </StyledButton>
+)

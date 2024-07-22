@@ -28,6 +28,7 @@ import { format } from 'date-fns'
 import { TDateValue } from '../DateValue/types'
 import { dateLocale } from '@/shared/utils'
 import i18next from 'i18next'
+import { getUserSelector } from '@/entities/User'
 
 export const HomeFilter = forwardRef<
   TBottomSheetBaseRef,
@@ -36,6 +37,7 @@ export const HomeFilter = forwardRef<
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { filterHome } = useTypedSelector(getProjectsSelector)
+  const { setting } = useTypedSelector(getUserSelector)
 
   const dateValueRef = useRef<TBottomSheetBaseRef | null>(null)
   const relevanceValueRef = useRef<TBottomSheetBaseRef | null>(null)
@@ -48,9 +50,10 @@ export const HomeFilter = forwardRef<
   const [relevanceDate, setRelevanceDate] = useState<TDateValue | undefined>()
 
   useEffect(() => {
-    if (!rangeMaxMin.length || rangeMaxMin[1] === 100) {
+    setRangeMaxMin([filterData?.min || 0, filterData?.max || 100])
+
+    if (!range.length) {
       setRange([0, filterData?.max || 100])
-      setRangeMaxMin([0, filterData?.max || 100])
     }
   }, [filterData])
 
@@ -59,6 +62,10 @@ export const HomeFilter = forwardRef<
       setRange([filterHome?.min || 0, filterHome?.max || 100])
     }
   }, [filterHome])
+
+  useEffect(() => {
+    setRangeMaxMin([])
+  }, [setting.currency])
 
   const onApply = () => {
     dispatch(

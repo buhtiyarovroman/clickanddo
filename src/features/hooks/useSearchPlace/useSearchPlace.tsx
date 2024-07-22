@@ -15,21 +15,21 @@ export const useSearchPlace = () => {
       })
       setPlaces(data.predictions)
     } catch (err) {
-      console.log('useFindHashTags error:', err)
+      console.log('useSearchPlace error:', err)
     } finally {
     }
   }
 
-  const debouncedFetchHashtags = _.debounce(getPlaces, 800)
+  const debouncedSearch = _.debounce(getPlaces, 800)
 
   useEffect(() => {
     if (search.length > 2) {
-      debouncedFetchHashtags()
+      debouncedSearch()
     }
     if (search.length === 0) {
       setPlaces([])
     }
-    return () => debouncedFetchHashtags.cancel()
+    return () => debouncedSearch.cancel()
   }, [search])
 
   return {

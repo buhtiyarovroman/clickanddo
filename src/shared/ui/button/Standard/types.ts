@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
-import { SvgProps } from 'react-native-svg'
 import { TIconsKeys } from '@assets/Svg'
 import { EColors } from '../../Styled'
 import { TMargin } from '../../utils'
@@ -8,6 +7,7 @@ import { TIconProps } from '../../Icon/types'
 
 export type TStandard = {
   onPress?: () => void
+  onPressOut?: () => void
   children?: ReactNode
   text?: string
   textColor?: EColors

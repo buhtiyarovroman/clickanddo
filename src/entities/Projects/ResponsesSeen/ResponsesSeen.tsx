@@ -14,26 +14,25 @@ export const ResponsesSeen = ({
 }: TProjectResponsesSeenProps) => {
   const { t } = useTranslation()
 
-  const renderItem = (item: TProjectResponse, index: number) => {
-    return (
-      <React.Fragment key={item._id}>
-        {projectResponses?.length > 5 && index === 4 ? (
-          <LastItem key={item._id} index={index}>
-            <SMedium mRight="3px" color={EColors.grey_800}>
-              +{projectResponses?.length - 4}
-            </SMedium>
-          </LastItem>
-        ) : (
-          <StyledImage
-            key={item._id}
-            index={index}
-            source={item?.photo}
-            type={'user'}
-          />
-        )}
-      </React.Fragment>
-    )
-  }
+  const renderItem = (item: TProjectResponse, index: number) => (
+    <React.Fragment key={item._id}>
+      {projectResponses?.length > 5 && index === 4 ? (
+        <LastItem key={item._id} index={index}>
+          <SMedium mRight="3px" color={EColors.grey_800}>
+            +{projectResponses?.length - 4}
+          </SMedium>
+        </LastItem>
+      ) : (
+        <StyledImage
+          key={item._id}
+          index={index}
+          source={item?.photo}
+          type={'user'}
+        />
+      )}
+    </React.Fragment>
+  )
+
   return (
     <FlexWrapper mTop={'12px'} justify={'space-between'} align={'center'}>
       <FlexWrapper width={'70%'} justify={'flex-start'}>

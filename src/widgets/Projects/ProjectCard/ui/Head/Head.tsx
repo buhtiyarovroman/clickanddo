@@ -127,7 +127,7 @@ export const Head = ({
       })
     }
 
-    if (project.projectResponses.length === 0) {
+    if (project.origin ? true : project.projectResponses.length === 0) {
       commonOptions.push(
         {
           title: t('edit_project'),

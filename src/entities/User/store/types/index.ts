@@ -8,6 +8,7 @@ export type TInitialUserState = {
   user: TUser | null
   userSessions: TUser[]
 
+  userLocation: { longitude: number; latitude: number } | null
   registerData: TRegisterData
   seeOnboarding: boolean
   loading: boolean

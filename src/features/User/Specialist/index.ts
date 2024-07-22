@@ -6,7 +6,6 @@ import { SpecialOffers } from './SpecialOffers'
 import { JobReviews } from './JobReviews'
 import { SkillBox } from './SkillBox'
 import { AdditionalInformation } from './AdditionalInformation'
-import { SpecialistGuestTabs } from './SpecialistGuestTabs'
 
 export const UserSpecialistFeatures = {
   UserInfo,
@@ -17,5 +16,4 @@ export const UserSpecialistFeatures = {
   JobReviews,
   SkillBox,
   AdditionalInformation,
-  SpecialistGuestTabs,
 }

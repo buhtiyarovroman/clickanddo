@@ -48,7 +48,7 @@ export const useCheckFavorites = ({ id, disableCheck = false }: TProps) => {
         favoritesActions.setState({ favorites: [...favorites, response.data] }),
       )
     } catch (err) {
-      console.error('onAddFavorite err=>', err.response.data)
+      console.error('onAddFavorite err=>', err?.response?.data)
     } finally {
       setAddLoading(false)
     }
@@ -58,13 +58,15 @@ export const useCheckFavorites = ({ id, disableCheck = false }: TProps) => {
     _onAddFavorite(data)
   }
 
-  const onDeleteFavorite = async (id: string) => {
+  const onDeleteFavorite = async (deletedId: string) => {
     try {
       setAddLoading(true)
 
       setInFavorites(!inFavorites)
 
-      const { data: deleted } = await FavoritesService.getSearchById({ id })
+      const { data: deleted } = await FavoritesService.getSearchById({
+        id: deletedId,
+      })
 
       if (!deleted) return
 
@@ -83,7 +85,7 @@ export const useCheckFavorites = ({ id, disableCheck = false }: TProps) => {
   }
 
   useEffect(() => {
-    !disableCheck && onCheck()
+    !disableCheck && !!id && onCheck()
   }, [id])
 
   return {

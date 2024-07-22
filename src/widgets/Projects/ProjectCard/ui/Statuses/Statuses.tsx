@@ -3,20 +3,20 @@ import { useTranslation } from 'react-i18next'
 
 import { TProjectCardStatusesProps } from './types'
 
-import { Icon } from '@/shared/ui/Icon'
+// import { Icon } from '@/shared/ui/Icon'
 import {
   FlexWrapper,
   MRegular,
   SMedium,
   SRegular,
 } from '@/shared/ui/Styled/Styled'
-import { iconMapping } from '@/features/Publication/iconConfig'
+// import { iconMapping } from '@/features/Publication/iconConfig'
 import { format } from 'date-fns'
 import { EColors } from '@/shared/ui/Styled'
-import { useGetUserById } from '@/features/User/hooks'
 import { useTypedSelector } from '@/app/store'
 import { getUserSelector } from '@/entities/User'
 import { Image } from '@/shared/ui/image'
+import { styles } from './styled'
 
 export const Statuses = ({
   originType,
@@ -38,9 +38,9 @@ export const Statuses = ({
         <>
           {!!originType && (
             <FlexWrapper mTop={'10px'} justify={'flex-start'}>
-              <Icon name={iconMapping[originType]} />
+              {/* <Icon name={iconMapping[originType]} /> */}
               {!!startDate && (
-                <MRegular mLeft={'10px'}>
+                <MRegular>
                   {format(new Date(startDate), 'dd.MM.yyyy hh:mm')}
                 </MRegular>
               )}
@@ -49,7 +49,7 @@ export const Statuses = ({
 
           {relevantUntil && (
             <FlexWrapper mTop={'10px'} justify={'space-between'}>
-              <SMedium style={{ fontWeight: '800' }}>
+              <SMedium style={styles.main}>
                 {t('relevance_date_project')}
               </SMedium>
 
@@ -63,7 +63,11 @@ export const Statuses = ({
 
       {isActive && isCustomer && !!specialist && (
         <FlexWrapper justify={'flex-start'}>
-          <Image.Standard source={specialist.photo} />
+          <Image.Standard
+            style={styles.image}
+            type={'user'}
+            source={specialist.photo}
+          />
 
           <MRegular mLeft={'10px'}>
             {specialist.name} {specialist.secondName}

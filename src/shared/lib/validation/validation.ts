@@ -19,4 +19,22 @@ export const Schemas = {
   password: z.string().min(6, { message: 'validation_error.password' }),
   description: z.string().optional(),
   currency: z.enum(['UAH', 'EUR', 'PLN', 'USD']),
+
+  hashtags: z.array(
+    z.object({
+      __v: z.number().optional(),
+      _id: z.string(),
+      category: z.string().optional(),
+      createdAt: z.string().optional(),
+      interest: z.string().optional(),
+      status: z.string().optional(),
+      title: z.array(
+        z.object({
+          lang: z.string(),
+          value: z.string(),
+        }),
+      ),
+      updatedAt: z.string().optional(),
+    }),
+  ),
 }

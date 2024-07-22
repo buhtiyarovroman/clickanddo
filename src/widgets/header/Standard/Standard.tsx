@@ -15,6 +15,7 @@ export const Standard = ({
   onPressRightIcon: onPress,
   onGoBack,
   disableShadow = false,
+  openDriver = false,
 }: TStandardProps) => {
   const navigation = useNavigation()
 
@@ -25,6 +26,7 @@ export const Standard = ({
       return
     }
     navigation.goBack()
+    openDriver && navigation.dispatch(DrawerActions.openDrawer())
   }
   return (
     <>

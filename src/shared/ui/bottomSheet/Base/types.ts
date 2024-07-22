@@ -18,4 +18,5 @@ export type TBottomSheetBaseProps = {
   containerStyle?: StyleProp<ViewStyle>
   borderRadius?: number
   isList?: boolean
+  onBackdropPress?: () => void
 }

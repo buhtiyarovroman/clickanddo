@@ -40,7 +40,7 @@ export const useGetProjectChats = ({ projectId }: TUseGetProjectChatsProps) => {
 
         dispatch(chatActions.getAllUnreadCountRequest({}))
       } catch (err) {
-        console.error('useGetChats err =>', err)
+        console.error('useGetProjectChats err =>', err)
       } finally {
         !refresh && setLoading(false)
         refresh && setRefreshLoading(false)

@@ -76,7 +76,7 @@ export const SpecialistList = () => {
     ({ item }) => (
       <ProjectsWidgets.ProjectCard
         project={item}
-        //check this logic
+        needChatDetect
         type={activeTab}
         mBottom="20px"
         onPress={() => onGoJob(item)}

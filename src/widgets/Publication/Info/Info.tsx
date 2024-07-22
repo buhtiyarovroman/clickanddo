@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import i18next, { t } from 'i18next'
 import { format } from 'date-fns'
 
@@ -18,6 +18,7 @@ import { TInfoProps } from './types'
 import { HashtagItem, StyledPrice } from './styles'
 import { useTypedSelector } from '@/app/store'
 import { getUserSelector } from '@/entities/User'
+import { THashTag } from '@/entities/User/models'
 
 export const Info = ({ publication, type }: TInfoProps) => {
   const date = !!publication.createdAt
@@ -46,6 +47,32 @@ export const Info = ({ publication, type }: TInfoProps) => {
     }
   }, [])
 
+  const renderHashtags = (item: THashTag) => (
+    <HashtagItem key={item._id}>
+      <MRegular color={EColors.white}>
+        {getTranslate(item.title || [])}
+      </MRegular>
+    </HashtagItem>
+  )
+
+  const filterHashtag = () => {
+    if (!openDescription && publication.hashtag.length > 3) {
+      return publication.hashtag.slice(0, 3)
+    }
+
+    return publication.hashtag
+  }
+
+  const renderShowMore = () => (
+    <TouchableOpacity onPress={() => setOpenDescription(!openDescription)}>
+      <MRegular mLeft={'10px'}>
+        {t(openDescription ? 'show_less_skills' : 'show_all_skills')}
+      </MRegular>
+    </TouchableOpacity>
+  )
+
+  console.log('price =>', publication.price)
+
   return (
     <>
       {!!publication.address && (
@@ -58,26 +85,9 @@ export const Info = ({ publication, type }: TInfoProps) => {
       <FlexWrapper style={styles.section_info}>
         <LSemibold>{publication?.heading}</LSemibold>
         <FlexWrapper wrap="wrap" mTop="10px" justify="flex-start">
-          {publication.hashtag &&
-            publication.hashtag.map(item => (
-              <HashtagItem key={item._id}>
-                <MRegular color={EColors.white}>
-                  {getTranslate(item.title || [])}
-                </MRegular>
-              </HashtagItem>
-            ))}
+          {filterHashtag().map(renderHashtags)}
+          {publication.hashtag.length > 3 && renderShowMore()}
         </FlexWrapper>
-
-        {/* Category, old */}
-
-        {/* {publication?.category && publication?.subcategory && (
-          <FlexWrapper style={styles.category}>
-            <MRegular color={EColors.white}>
-              {getTranslate(publication.category?.title)}
-              {'->'} {getTranslate(publication?.subcategory?.title)}
-            </MRegular>
-          </FlexWrapper>
-        )} */}
 
         <TouchableWithoutFeedback onPress={toggleOpenDescription}>
           <FlexWrapper
@@ -85,19 +95,15 @@ export const Info = ({ publication, type }: TInfoProps) => {
             mTop="12px"
             align="flex-end"
             justify="flex-start">
-            <MRegular
+            <LRegular
               style={styles.description}
               align="left"
-              numberOfLines={openDescription ? undefined : 2}
               color={EColors.grey_600}>
               {publication?.description}
-            </MRegular>
-            {!openDescription && publication?.description.length > 100 && (
-              <MRegular color={EColors.grey_800}>{t('more')}</MRegular>
-            )}
+            </LRegular>
           </FlexWrapper>
         </TouchableWithoutFeedback>
-        <FlexWrapper mTop="12px" justify="space-between" align="flex-end">
+        <FlexWrapper justify="space-between" align="flex-end">
           <FlexWrapper justify="flex-start" width="50%">
             {!publication.hideLikes && (
               <>

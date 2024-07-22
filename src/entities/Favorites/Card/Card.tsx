@@ -132,8 +132,6 @@ export const Card = ({
       <FlexWrapper flexDirection="column" align="flex-start">
         <LSemibold mTop="16px" numberOfLines={2}>
           {name}
-          {name}
-          {name}
         </LSemibold>
       </FlexWrapper>
 

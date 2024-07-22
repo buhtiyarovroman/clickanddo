@@ -9,7 +9,6 @@ import { EScreens } from '@/app/navigation'
 import { format } from 'date-fns'
 import { ShowMore } from '../ShowMore'
 import { v4 as uuidv4 } from 'uuid'
-import { Line } from '../../styled'
 
 export const Work = ({ isEdit, work = [] }: TAddInfoEducationProps) => {
   const { t } = useTranslation()
@@ -17,20 +16,16 @@ export const Work = ({ isEdit, work = [] }: TAddInfoEducationProps) => {
 
   const isVisible = work.length || isEdit
 
-  const renterEducation = (item: TUserWork) => {
-    return (
-      <ShowMore
-        key={uuidv4()}
-        name={item.name}
-        times={`${format(
-          new Date(item.from || new Date().toISOString()),
-          'yyyy',
-        )} - ${
-          item.to ? format(new Date(item.to), 'yyyy') : t('current_time')
-        }`}
-      />
-    )
-  }
+  const renterEducation = (item: TUserWork) => (
+    <ShowMore
+      key={uuidv4()}
+      name={item.name}
+      times={`${format(
+        new Date(item.from || new Date().toISOString()),
+        'yyyy',
+      )} - ${item.to ? format(new Date(item.to), 'yyyy') : t('current_time')}`}
+    />
+  )
 
   const onEditNavigate = () => {
     navigate(EScreens.ProfileAddInfoWork, { isEdit: true })

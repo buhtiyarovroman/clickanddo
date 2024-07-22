@@ -19,6 +19,8 @@ export const Specialists = () => {
   const currentTitle =
     route.params?.title?.find(el => el.lang === i18next.language)?.value || ''
 
+  const category = route.params.category
+
   const {
     getFirstPage,
     getMore: getMoreInterests,
@@ -40,12 +42,6 @@ export const Specialists = () => {
 
     getMoreInterests()
   }
-
-  useEffect(() => {
-    if (interests.length !== 0 && !selectedInterest.length) {
-      setSelectedInterest([interests?.[0]._id || ''])
-    }
-  }, [interests, route.params.category])
 
   useEffect(() => {
     isFocused && getFirstPage()
@@ -70,10 +66,15 @@ export const Specialists = () => {
           openFilters={openFilters}
           interests={interests}
           selectedInterest={selectedInterest}
+          canGetMoreItems={!!canGetMoreItems}
         />
 
-        <SpecialistsList selectedInterest={selectedInterest} />
+        <SpecialistsList
+          selectedInterest={selectedInterest}
+          category={category}
+        />
       </Background.Standard>
+
       <BottomSheet.SpecialistsFilters
         currentCategory={currentTitle}
         ref={ref}

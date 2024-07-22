@@ -19,14 +19,15 @@ import { getUserSelector } from '@/entities/User'
 import { PublicationService } from '@/entities/Publication/services'
 import { ChatEntities } from '@/entities/Chat'
 import { LoaderContext } from '@/app/contexts/Loader'
+import { ELanguages, i18n } from '@/app/i18n'
 
 export const NotificationCard = ({
-  message = '',
+  message,
   status = 'read',
   createdAt = new Date().toString(),
   payload,
   user,
-  title = '',
+  title,
   project,
   publication,
   ...props
@@ -142,9 +143,12 @@ export const NotificationCard = ({
         flexDirection={'column'}>
         <Styled.FlexWrapper
           mBottom={'5px'}
-          width={'70%'}
+          width={'80%'}
           justify={'space-between'}>
-          <Styled.FlexWrapper align={'flex-start'} flexDirection={'column'}>
+          <Styled.FlexWrapper
+            width={'75%'}
+            align={'flex-start'}
+            flexDirection={'column'}>
             <Styled.FlexWrapper mBottom={'5px'} width={'auto'}>
               <MSemibold mRight={'16px'}>
                 {user?.name} {user?.secondName}{' '}
@@ -153,7 +157,7 @@ export const NotificationCard = ({
               {status === 'new' && <Dot />}
             </Styled.FlexWrapper>
             <MMedium color={EColors.black_35}>
-              {title} {currentTitleName}
+              {title?.[i18n.language as ELanguages] || ''} {currentTitleName}
             </MMedium>
           </Styled.FlexWrapper>
           {!!currentImage && (
@@ -162,7 +166,9 @@ export const NotificationCard = ({
         </Styled.FlexWrapper>
         {!!isChat && !!payload && (
           <MSemibold style={styles.message}>
-            {isPublication ? publication?.heading : message}
+            {isPublication
+              ? publication?.heading
+              : message?.[i18n.language as ELanguages]}
           </MSemibold>
         )}
       </Styled.FlexWrapper>

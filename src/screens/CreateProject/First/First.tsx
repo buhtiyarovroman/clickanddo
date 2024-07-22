@@ -55,6 +55,7 @@ export const First = () => {
         page={1}
         count={3}
         onPressClose={onClearNavigate}
+        needBackHandler
       />
 
       <Background.Scroll style={styles.main} pHorizontal={20}>

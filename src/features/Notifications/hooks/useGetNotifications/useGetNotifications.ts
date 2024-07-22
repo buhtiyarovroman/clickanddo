@@ -19,7 +19,6 @@ export const useGetNotifications = ({
 
   const getNotificationCount = async () => {
     try {
-      setLoading(true)
       const { data } =
         await NotificationsEntities.NotificationsService.getNotifications({
           status: 'new',
@@ -28,8 +27,6 @@ export const useGetNotifications = ({
       dispatch(notificationsActions.setNotificationsTotalCount(data.totalCount))
     } catch (err) {
       console.error('useGetNotifications =>', err)
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -68,6 +65,7 @@ export const useGetNotifications = ({
   return {
     getNotificationCount,
     notifications,
+    loading,
     ...paginationProps,
   }
 }

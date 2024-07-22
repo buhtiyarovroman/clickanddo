@@ -11,11 +11,24 @@ export const Dropdown = ({
   items,
   label,
   dropDownDirection = 'DEFAULT',
+  style = {},
+  customOpen,
+  setCustomOpen,
+  setOtherControls = () => {},
   ...props
 }: TDropdownProps) => {
   const [open, setOpen] = useState<boolean>(false)
 
   const [defValue, setDefValue] = useState(null)
+
+  const openControl = customOpen || open
+  const setOpenControl = setCustomOpen || setOpen
+
+  useEffect(() => {
+    if (openControl) {
+      setOtherControls(false)
+    }
+  }, [openControl])
 
   useEffect(() => {
     defValue && onSelect(defValue)
@@ -31,14 +44,15 @@ export const Dropdown = ({
         props={{ activeOpacity: 0.8 }}
         theme={'LIGHT'}
         placeholder={label}
-        open={open}
+        open={openControl}
         value={value}
         items={items}
-        setOpen={setOpen}
+        setOpen={setOpenControl}
         setValue={setDefValue}
         dropDownDirection={dropDownDirection}
         // TODO - Improve styles
         {...styles}
+        style={[style, styles.style]}
       />
     </Container>
   )

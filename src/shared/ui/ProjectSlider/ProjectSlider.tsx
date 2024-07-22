@@ -1,74 +1,77 @@
 import React, { useRef, useState } from 'react'
 import { TProjectPreviewSliderProps } from './types'
-import { PaginationContainer, StyledImage, Bottom } from './styled'
-import { Dimensions, ListRenderItem, ViewToken } from 'react-native'
+import { StyledImage, Bottom, styles } from './styled'
+import { TouchableOpacity, Dimensions } from 'react-native'
 import { FlexWrapper } from '@/shared/ui/Styled/Styled'
-import { PaginationAnimationDots } from '@/shared/ui/PaginationAnimationDots'
-import Animated, {
-  useSharedValue,
-  useAnimatedScrollHandler,
-} from 'react-native-reanimated'
+
+import { TImageViewRef } from '../ImageViewer/types'
+import { ImageViewer } from '../ImageViewer'
+import { getImageSource } from '@/shared/config'
+import { Carousel } from '../AnimatedCarusel/AnimatedCarusel'
+import { hp } from '../utils'
+import { CarouselRenderItem } from 'react-native-reanimated-carousel'
+import { TCarouselRef } from '../AnimatedCarusel/types'
+
+const { width: viewportWidth } = Dimensions.get('window')
 
 export const ProjectSlider = ({
   images = [],
   imageType = 'project',
 }: TProjectPreviewSliderProps) => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const x = useSharedValue(0)
+  const imageViewerRef = useRef<TImageViewRef | null>(null)
+  const carouselRef = useRef<TCarouselRef | null>(null)
+  const [activeSlide, setActiveSlide] = useState(0)
 
-  const onViewableItemsChanged = ({
-    viewableItems,
-  }: {
-    viewableItems: ViewToken[]
-  }) => {
-    if (viewableItems[0].index !== null) {
-      setCurrentIndex(viewableItems[0].index)
-    }
+  const onPress = () => {
+    imageViewerRef.current?.show()
   }
 
-  const viewabilityConfig = {
-    minimumViewTime: 300,
-    viewAreaCoveragePercentThreshold: 10,
-  }
-
-  const viewabilityConfigCallbackPairs = useRef([
-    { viewabilityConfig, onViewableItemsChanged },
-  ])
-
-  const onScrollHandler = useAnimatedScrollHandler({
-    onScroll: event => {
-      x.value = event.contentOffset.x
-    },
-  })
-
-  const renderItem: ListRenderItem<string> = ({ item }) => {
+  const renderItem: CarouselRenderItem<string> = ({ item }) => {
     const isLocal = item.includes('/')
-    return <StyledImage source={item} type={isLocal ? undefined : imageType} />
+    return (
+      <TouchableOpacity activeOpacity={1} onPress={onPress}>
+        <StyledImage source={item} type={isLocal ? undefined : imageType} />
+      </TouchableOpacity>
+    )
   }
   return (
-    <FlexWrapper flexDirection={'column'}>
-      <Animated.FlatList
-        data={images}
-        horizontal
-        onScroll={onScrollHandler}
-        pagingEnabled
-        decelerationRate={'fast'}
-        keyboardShouldPersistTaps={'handled'}
-        showsHorizontalScrollIndicator={false}
-        viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
-        renderItem={renderItem}
-        nestedScrollEnabled
-      />
+    <>
+      <FlexWrapper flexDirection={'column'}>
+        {/* <Animated.FlatList
+          data={images}
+          horizontal
+          onScroll={onScrollHandler}
+          pagingEnabled
+          decelerationRate={'fast'}
+          keyboardShouldPersistTaps={'handled'}
+          showsHorizontalScrollIndicator={false}
+          viewabilityConfigCallbackPairs={
+            viewabilityConfigCallbackPairs.current
+          }
+          renderItem={renderItem}
+          nestedScrollEnabled
+        /> */}
 
-      <PaginationContainer>
-        <PaginationAnimationDots
-          length={images.length}
-          x={x}
-          currentIndex={currentIndex}
+        <Carousel
+          ref={carouselRef}
+          data={images}
+          width={viewportWidth}
+          renderItem={renderItem}
+          height={300}
+          onSnapToItem={setActiveSlide}
+          withPagination
+          dotContainerStyle={styles.dotContainer}
+          mode={'normal-horizontal'}
         />
-      </PaginationContainer>
 
-      <Bottom />
-    </FlexWrapper>
+        <Bottom />
+      </FlexWrapper>
+
+      <ImageViewer
+        ref={imageViewerRef}
+        data={getImageSource(images, imageType)}
+        index={activeSlide}
+      />
+    </>
   )
 }

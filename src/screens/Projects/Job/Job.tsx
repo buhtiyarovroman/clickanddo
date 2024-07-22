@@ -8,7 +8,7 @@ import {
   useRoute,
 } from '@react-navigation/native'
 import { EScreens, TJobStack } from '@/app/navigation'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { heightPercentageToDP } from 'react-native-responsive-screen'
 import { useGetProjectById } from '@/features/Projects/hooks'
 import { Description } from '@/widgets/Projects/Description'
@@ -17,17 +17,12 @@ import { getUserSelector } from '@/entities/User'
 import { useNavigation } from '@/features/hooks'
 import { useDispatch } from 'react-redux'
 import { projectsActions } from '@/entities/Projects/store'
-// import { ResponseCard } from '@/entities/Projects/ResponseCard'
-// import { TResponseCardProps } from '@/entities/Projects/ResponseCard/types'
-// import { EJobScreenTab } from './types'
-// import { ProjectsWidgets } from '@/widgets/Projects'
-// import { SceneMap } from 'react-native-tab-view'
-// import { useTranslation } from 'react-i18next'
+import { Swipeable } from 'react-native-gesture-handler'
 
 export const Job = () => {
   // const { t } = useTranslation()
   const { project } = useRoute<RouteProp<TJobStack, EScreens.JobMain>>().params
-  const { navigate } = useNavigation()
+  const { navigate, goBack } = useNavigation()
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
@@ -127,16 +122,31 @@ export const Job = () => {
 
   return (
     <>
-      {/* <Header.Standard goBack title={t('project') as string} /> */}
-
       <Background.SafeArea style={styles.main} edges={['top', 'bottom']}>
-        <View style={[styled.tab_wrapper]}>
+        <Swipeable
+          overshootLeft
+          leftThreshold={0.1}
+          // onEnded={goBack}
+          onEnded={event => {
+            // event.nativeEvent.absoluteX < width / 2 && goBack()
+            // console.log('Польз', event)
+
+            if (
+              event.nativeEvent.velocityX > 0 &&
+              event.nativeEvent.translationX > 0
+            ) {
+              goBack()
+              console.log('Пользователь провел пальцем слева направо')
+            }
+          }}
+          dragOffsetFromRightEdge={1}
+          childrenContainerStyle={styled.tab_wrapper}>
           <Description
             onGoProfile={onGoProfile}
             onRefresh={getProject}
             project={localProject}
           />
-        </View>
+        </Swipeable>
       </Background.SafeArea>
     </>
   )

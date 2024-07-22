@@ -5,12 +5,12 @@ import { ResponseCard } from '@/entities/Projects/ResponseCard'
 import { getUserSelector } from '@/entities/User'
 import { useNavigation } from '@/features/hooks'
 import { EColors } from '@/shared/ui/Styled'
-import { H3SemiBold, MRegular } from '@/shared/ui/Styled/Styled'
+import { FlexWrapper, H3SemiBold, MRegular } from '@/shared/ui/Styled/Styled'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ListRenderItem, FlatList } from 'react-native'
 import { TResponsesProjectListProps } from './types'
-import { Container } from './styled'
+import { Container, styles } from './styled'
 import { useGetProjectResponses } from '@/features/Projects/hooks'
 
 export const ResponsesProjectList = ({
@@ -19,7 +19,7 @@ export const ResponsesProjectList = ({
   projectName = '',
   projectSpecialist = false,
 }: TResponsesProjectListProps) => {
-  const { responses, getResponses } = useGetProjectResponses({ id })
+  const { responses } = useGetProjectResponses({ id })
   const { user } = useTypedSelector(getUserSelector)
   const { t } = useTranslation()
   const [isDisabled, setIsDisabled] = useState(projectSpecialist)
@@ -27,6 +27,8 @@ export const ResponsesProjectList = ({
   const isCustomer = user?.role === 'customer'
 
   const { navigate } = useNavigation()
+
+  const isEmpty = !responses.length
 
   const onNavigateUser = (userId: string) => {
     navigate(EScreens.ProjectJobStack, {
@@ -47,6 +49,11 @@ export const ResponsesProjectList = ({
     />
   )
 
+  const renderEmpty = () => (
+    <FlexWrapper height={'100%'}>
+      <MRegular color={EColors.grey_600}>{t('empty.feedback')}</MRegular>
+    </FlexWrapper>
+  )
   return (
     <Container>
       {!hideTitle && (
@@ -63,8 +70,10 @@ export const ResponsesProjectList = ({
       <FlatList
         keyExtractor={item => item._id}
         data={responses}
+        contentContainerStyle={[isEmpty && styles.empty]}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={renderEmpty}
       />
     </Container>
   )

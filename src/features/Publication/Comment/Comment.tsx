@@ -22,7 +22,7 @@ export const Comment = ({
     replyTo: _id,
   })
 
-  const currentRepliesCount = repliesCount - replies.length
+  const currentRepliesCount = (repliesCount || 0) - replies.length
 
   useEffect(() => {
     !!repliesCount && getFirstPage()
@@ -40,7 +40,9 @@ export const Comment = ({
 
       {!showMore && (
         <>
-          <ReplayContainer>{replies.map(renderItem)}</ReplayContainer>
+          <ReplayContainer>
+            {comments.slice(0, 3).map(renderItem)}
+          </ReplayContainer>
 
           {!!currentRepliesCount && (
             <Touchable onPress={onPressShoeMore}>

@@ -21,6 +21,7 @@ export const List = () => {
     canGetMoreItems,
     loadMoreLoading,
   } = useGetCategories()
+
   const { t } = useTranslation()
   const { navigate } = useNavigation()
 

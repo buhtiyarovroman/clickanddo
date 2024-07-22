@@ -26,14 +26,14 @@ export const Menu = () => {
     dispatch(userActions.logout())
     dispatch(chatActions.clearState())
 
-    await auth().signOut()
-
     navigateDispatch(
       CommonActions.reset({
         routes: [{ name: EStacks.Auth }],
         index: 0,
       }),
     )
+
+    await auth().signOut()
   }
 
   const onPressLink = async (item: TDrawerButtonData) => {

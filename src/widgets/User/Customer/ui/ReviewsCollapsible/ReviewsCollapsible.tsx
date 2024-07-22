@@ -9,7 +9,10 @@ import { useIsFocused } from '@react-navigation/native'
 
 import { FlatList } from 'react-native-collapsible-tab-view'
 
-export const Reviews = ({ _id = '' }: TProfileReview) => {
+export const ReviewsCollapsible = ({
+  _id = '',
+  isEdit = false,
+}: TProfileReview) => {
   const { reviews, getFirstPage, canGetMoreItems, getMore, loadMoreLoading } =
     useGetUserReviews({ id: _id })
 
@@ -21,9 +24,17 @@ export const Reviews = ({ _id = '' }: TProfileReview) => {
     }
   }, [isFocused])
 
-  const renderItem: ListRenderItem<TReview> = ({ item }) => (
-    <ReviewCard mBottom={'16px'} {...item} />
-  )
+  const renderItem: ListRenderItem<TReview> = ({ item, index }) => {
+    const firstMargin = index === 0 ? '16px' : '0px'
+    return (
+      <ReviewCard
+        mBottom={'16px'}
+        mTop={firstMargin}
+        isMyProfile={isEdit}
+        {...item}
+      />
+    )
+  }
 
   const onGetMore = () => {
     if (!canGetMoreItems) return
@@ -51,6 +62,5 @@ export const Reviews = ({ _id = '' }: TProfileReview) => {
 const styles = StyleSheet.create({
   flatList: {
     paddingHorizontal: 16,
-    paddingTop: 16,
   },
 })

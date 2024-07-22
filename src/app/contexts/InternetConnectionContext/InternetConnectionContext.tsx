@@ -4,7 +4,10 @@ import React, {
   useEffect,
   PropsWithChildren,
 } from 'react'
-import NetInfo from '@react-native-community/netinfo'
+import NetInfo, {
+  NetInfoCellularGeneration,
+  NetInfoStateType,
+} from '@react-native-community/netinfo'
 import RNRestart from 'react-native-restart'
 import { useTranslation } from 'react-i18next'
 import _ from 'lodash'
@@ -33,6 +36,18 @@ export const InternetConnectionContextProvider = ({
 
   useEffect(() => {
     NetInfo.addEventListener(networkState => {
+      if (networkState.type === NetInfoStateType.cellular) {
+        if (
+          networkState?.details?.cellularGeneration !==
+            NetInfoCellularGeneration['4g'] &&
+          networkState?.details?.cellularGeneration !==
+            NetInfoCellularGeneration['5g'] &&
+          networkState?.details?.cellularGeneration !==
+            NetInfoCellularGeneration['3g']
+        ) {
+          changeConnectionStatus(false)
+        }
+      }
       changeConnectionStatus(networkState?.isInternetReachable ?? true)
     })
   }, [])

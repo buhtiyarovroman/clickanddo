@@ -25,7 +25,11 @@ export const TabStack = () => (
     screenOptions={ScreenTabOptions}
     tabBar={tabBar}>
     <Tab.Screen component={ListStack} name={ETabStacks.List} />
-    <Tab.Screen component={ProjectsStack} name={ETabStacks.Projects} />
+    <Tab.Screen
+      component={ProjectsStack}
+      name={ETabStacks.Projects}
+      options={{ unmountOnBlur: true }}
+    />
     <Tab.Screen component={HomeStack} name={ETabStacks.Home} />
     <Tab.Screen component={FavoritesStack} name={ETabStacks.Favorites} />
     <Tab.Screen component={ChatStack} name={ETabStacks.Chat} />

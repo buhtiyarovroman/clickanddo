@@ -20,7 +20,7 @@ export const UserSessionAccordion = () => {
     userSessions.length < 2
 
   const renderAccordionHeader = (isOpen: boolean) => (
-    <UserSession {...user} isOpen={isOpen} />
+    <UserSession {...user} isOpen={isOpen} showCountMessage />
   )
 
   const onPress = async (newUser: TUser) => {

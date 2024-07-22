@@ -49,6 +49,7 @@ export const Fourth = () => {
         page={3}
         count={3}
         onPressClose={onClearNavigate}
+        needBackHandler
       />
 
       <Background.Scroll

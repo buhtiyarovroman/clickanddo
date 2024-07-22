@@ -1,5 +1,4 @@
 import { EColors } from '@/shared/ui/Styled'
-import { Image } from '@/shared/ui/image'
 import { FLEX, MARGIN, TMargin } from '@/shared/ui/utils'
 import {
   ImageBackground,
@@ -46,5 +45,8 @@ export const styles = StyleSheet.create({
   },
   closeContainer: {
     padding: 5,
+  },
+  text: {
+    width: '80%',
   },
 })

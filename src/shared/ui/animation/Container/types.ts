@@ -10,7 +10,7 @@ export type TContainerProps = {
 
   dataHeight?: number
   resultHeight?: number
-
+  onChangeOpen?: (value: boolean) => void
   inputChildren?: () => JSX.Element
   children: ReactNode
 }

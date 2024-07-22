@@ -12,6 +12,8 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 import { EColors } from '@/shared/ui/Styled'
 import { View } from 'react-native'
 import { Image } from '@/shared/ui/image'
+import { dateLocale } from '@/shared/utils'
+import i18next from 'i18next'
 
 export const Item = ({
   _id,
@@ -23,7 +25,9 @@ export const Item = ({
 }: TPublicationCommentItemProps) => {
   const { t } = useTranslation()
   const dateObject = parseISO(createdAt)
-  const distanceString = formatDistanceToNow(dateObject)
+  const distanceString = formatDistanceToNow(dateObject, {
+    locale: dateLocale[i18next.language],
+  })
 
   const _onPressReplayTo = () => {
     if (!_id) {
@@ -60,7 +64,7 @@ export const Item = ({
         <MRegular style={styles.comment_text}>{comment}</MRegular>
         {!replyTo && (
           <Touchable onPress={_onPressReplayTo} width={'auto'}>
-            <MRegular>{t('reply_to')}</MRegular>
+            <MRegular color={EColors.primary}>{t('reply_to')}</MRegular>
           </Touchable>
         )}
       </FlexWrapper>

@@ -6,8 +6,8 @@ import { useNavigation } from '@/features/hooks'
 import {
   FlexWrapper,
   MMedium,
-  MRegular,
   SMedium,
+  SRegular,
   Touchable,
 } from '@/shared/ui/Styled/Styled'
 import { Icon } from '@/shared/ui/Icon'
@@ -74,7 +74,7 @@ export const ListItem = ({ publication }: TListItemProps) => {
         <FlexWrapper width={'auto'}>
           <Icon name={'MessagePublication'} size={20} />
           <MMedium mLeft={'8px'} color={EColors.grey_600}>
-            {publication.projects || 0}
+            {publication.comments || 0}
           </MMedium>
         </FlexWrapper>
         <FlexWrapper width={'auto'}>
@@ -84,8 +84,8 @@ export const ListItem = ({ publication }: TListItemProps) => {
           </MMedium>
         </FlexWrapper>
       </FlexWrapper>
-      <FlexWrapper mTop="12px" justify="space-between">
-        <MRegular>{heading}</MRegular>
+      <FlexWrapper justify="space-between">
+        <SRegular>{heading}</SRegular>
       </FlexWrapper>
     </View>
   )

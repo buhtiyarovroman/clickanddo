@@ -17,6 +17,7 @@ import { getUserSelector, userActions } from '@/entities/User'
 import { useTypedSelector } from '@/app/store'
 import { FlexWrapper } from '@/shared/ui/Styled/Styled'
 import { TCurrencyPickData } from './types'
+import { View } from 'react-native'
 
 export const Settings = () => {
   const dispatch = useDispatch()
@@ -52,6 +53,10 @@ export const Settings = () => {
     i18n.language as TLanguages,
   )
 
+  const [langOpen, setLangOpen] = useState(false)
+
+  const [currencyOpen, setCurrencyOpen] = useState(false)
+
   const [defCurrency, setDefCurrency] = useState<TCurrencyValue>(
     setting.currency,
   )
@@ -64,11 +69,13 @@ export const Settings = () => {
   }, [])
 
   const onSelect = (val: ValueType) => {
+    setCurrencyOpen(false)
     setLanguage(val as ELanguages)
     setDefLanguage(val as ELanguages)
   }
 
   const onSelectCurrency = (val: ValueType) => {
+    setLangOpen(false)
     setDefCurrency(val as TCurrencyValue)
     dispatch(
       userActions.setState({
@@ -82,24 +89,34 @@ export const Settings = () => {
 
   return (
     <>
-      <Header.Standard title={t('settings')} goBack />
+      <Header.Standard openDriver title={t('settings')} goBack />
 
       <Background.Standard style={styles.main} pHorizontal={20}>
-        <Input.Dropdown
-          value={defLanguage}
-          onSelect={onSelect}
-          items={languages}
-          label={t('choose_lang')}
-        />
+        <View style={styles.firstDropdown}>
+          <Input.Dropdown
+            customOpen={langOpen}
+            setCustomOpen={setLangOpen}
+            value={defLanguage}
+            onSelect={onSelect}
+            items={languages}
+            label={t('choose_lang')}
+            setOtherControls={setCurrencyOpen}
+          />
+        </View>
 
         <FlexWrapper mTop={'20px'} />
 
-        <Input.Dropdown
-          value={defCurrency}
-          onSelect={onSelectCurrency}
-          items={currencyData}
-          label={t('base_currency')}
-        />
+        <View style={styles.secondDropdown}>
+          <Input.Dropdown
+            customOpen={currencyOpen}
+            setCustomOpen={setCurrencyOpen}
+            value={defCurrency}
+            onSelect={onSelectCurrency}
+            items={currencyData}
+            label={t('base_currency')}
+            setOtherControls={setLangOpen}
+          />
+        </View>
       </Background.Standard>
     </>
   )

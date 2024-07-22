@@ -15,6 +15,9 @@ import { useFindHashtags } from '../hooks/useFindHashtags'
 import { EmptyHashtag } from '@/entities/User/EmptyHashtag'
 import { useTypedSelector } from '@/app/store'
 import { getUserSelector } from '@/entities/User'
+import * as S from './styled'
+import { FlatList, ListRenderItem } from 'react-native'
+import { Loader } from '@/shared/ui/loader'
 
 export const Hashtags = ({
   hashtag = [],
@@ -28,8 +31,15 @@ export const Hashtags = ({
   const { t } = useTranslation()
   const { user } = useTypedSelector(getUserSelector)
 
-  const { search, setSearch, foundHashTags, onAddHashTag, fetchHashtags } =
-    useFindHashtags()
+  const {
+    loading,
+    search,
+    setSearch,
+    foundHashTags,
+    onAddHashTag,
+    fetchHashtags,
+    ...paginationProps
+  } = useFindHashtags()
 
   const ids = hashtag.map(item => item._id)
 
@@ -38,7 +48,7 @@ export const Hashtags = ({
     : foundHashTags.filter(item => !ids.includes(item._id))
 
   useEffect(() => {
-    fetchHashtags()
+    !selectOnUserHashtags && fetchHashtags(0)
   }, [])
 
   const isLimit = limit ? hashtag.length === limit : false
@@ -47,13 +57,24 @@ export const Hashtags = ({
     onChange(hashtag.filter(item => item._id !== id))
   }
   const onSelect = (item: THashTag) => {
-    onChange([...hashtag, { _id: item._id, title: item.title }])
+    onChange([...hashtag, item])
   }
 
-  const renderHashtag = (item: THashTag) => {
-    return <HashtagItem key={item._id} onPress={onSelect} {...item} />
+  const renderHashtag: ListRenderItem<THashTag> = ({ item }) => (
+    <HashtagItem key={item._id} onPress={onSelect} {...item} />
+  )
+  const onGetMore = () => {
+    if (paginationProps.canGetMoreItems && !loading && !selectOnUserHashtags) {
+      paginationProps.getMore()
+    }
   }
 
+  const renderLoading = () => {
+    if (loading) {
+      return <Loader.Standard />
+    }
+    return <></>
+  }
   return (
     <>
       {withTitle && (
@@ -85,12 +106,30 @@ export const Hashtags = ({
           wrap={'wrap'}
           justify={'flex-start'}
           align={'flex-start'}>
-          {!!currentHashtag.length && currentHashtag.map(renderHashtag)}
+          {!!currentHashtag.length && (
+            <S.ListContainer>
+              <FlatList
+                nestedScrollEnabled
+                data={currentHashtag}
+                contentContainerStyle={S.styles.list}
+                renderItem={renderHashtag}
+                onEndReached={onGetMore}
+              />
+            </S.ListContainer>
+          )}
+
+          {!!loading && renderLoading()}
 
           {!currentHashtag.length && !!search && (
             <>
               <EmptyHashtag onPress={onAddHashTag} />
             </>
+          )}
+
+          {!currentHashtag.length && selectOnUserHashtags && (
+            <FlexWrapper>
+              <MRegular align={'center'}>{t('empty.profile_hashtag')}</MRegular>
+            </FlexWrapper>
           )}
         </FlexWrapper>
       )}
